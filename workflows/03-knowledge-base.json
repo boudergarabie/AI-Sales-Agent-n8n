@@ -1,0 +1,405 @@
+{
+  "name": "RAG-System",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        -144
+      ],
+      "id": "2dc5c2a2-e08d-4d05-8955-74b374841e1e",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "dd9597f3-04b0-4b50-a53e-6b695bf62533",
+              "name": "content",
+              "value": "=# Store Policies & Sales Knowledge Base (Old Money Brand - Algeria)\n\n---\n\n## 1. Shipping & Logistics Operations (سياسة التوصيل والخدمات اللوجستية)\n\n### Delivery Coverage & Modes\n- **Coverage:** Full logistical coverage across all 58 Algerian Wilayas.\n- **Delivery Modes:**\n  - **Home Delivery (À Domicile):** Courier delivers directly to the client's specified personal address.\n  - **Office Pickup (Stop Desk / Bureau):** Package is routed to the local agency hub for client collection.\n\n### Estimated Delivery Timelines\n- **Algiers & Central Wilayas:** 24 to 48 hours.\n- **Northern & Coastal Wilayas:** 2 to 4 business days.\n- **Southern Wilayas:** 3 to 6 business days.\n\n### Operational Protocols\n- **Dispatch:** Orders are processed and handed to logistics within 24 hours of client confirmation.\n- **Courier Contact:** The delivery agent initiates telephone contact prior to visiting the home address.\n- **Stop Desk Notifications:** Clients selecting office pickup receive an SMS notification as soon as the package is ready for collection at the local agency.\n\n---\n\n## 2. Payment, Fixed Pricing & On-Site Inspection Rights (سياسة الدفع، السعر الثابت وحق المعاينة)\n\n### Financial & Pricing Terms\n- **Payment Method:** Exclusively Cash on Delivery (COD / الدفع عند الاستلام) in Algerian Dinar (DZD).\n- **Fixed & Non-Negotiable Pricing (سياسة السعر الثابت):** All product prices are strictly fixed and non-negotiable. Our rates accurately reflect the superior quality of the premium fabrics used, precise tailoring, and the high standard of service and guarantees we provide to every client without compromise.\n- **No Prepayments:** No online prepayments, bank transfers, or CCP deposits are required prior to receiving the physical order.\n\n### Package Inspection Rights (حق المعاينة قبل الدفع)\n- **Mandatory Verification:** Clients possess the absolute right to open the physical package and inspect the contents in the presence of the courier before paying.\n- **Inspection Scope:** Verification includes checking fabric weight, tailoring quality, seam finish, color accuracy, and model/size agreement against the placed order.\n- **Immediate Rejection Protocol:** If the item fails inspection or does not match expectations at the door, the client can return the package to the courier immediately without making any payment.\n\n---\n\n## 3. After-Sales Exchange & Quality Guarantee (سياسة الضمان والاستبدال بعد الاستلام)\n\n### Exchange Window & Eligibility\n- **Timeframe:** Exchanges can be requested within 7 days from the delivery date.\n- **Condition Requirements:** Items must be returned unworn, unwashed, free of stains or perfume odors, with all original Old Money brand tags and packaging intact.\n\n### Exchange Responsibilities\n- **Defects or Store Errors:** If a wrong size, wrong item, or factory defect is verified after the courier leaves, the store manages a replacement at zero charge to the client.\n- **Customer Size Swap Requests:** If the client received the exact size requested but wishes to switch to a different size after home fitting, an exchange order is dispatched. The client covers only the standard return/re-shipping logistics fees.\n\n---\n\n## 4. Old Money Sales Objection Handling Matrix (مصفوفة التعامل مع الاعتراضات)\n\n### Objection 1: \"السعر مرتفع مقارنة بملابس المحلات العادية\" (Price seems high)\n- **Sales Response Logic:** Shift focus from cost to long-term sartorial value. Explain that Old Money pieces use high-density structured fabrics and classic tailoring that maintain their shape across seasons, unlike mass-market fast fashion. Reiterate that quality is guaranteed by the right to inspect the fabric in hand before paying.\n\n### Objection 2: \"وين جاي المحل نتاعكم؟ نحب نجي نقيس بنفسي\" (Where is your physical store?)\n- **Sales Response Logic:** Frame the digital-first model as an exclusive convenience. Explain that operating online allows directing budget into superior fabric quality rather than store overhead. Reassure the client that height and weight sizing precision, combined with open-box verification upon delivery, removes all sizing risks.\n\n### Objection 3: \"خايف الصور تكون مختلفة على الواقع\" (Photos might not match reality)\n- **Sales Response Logic:** Emphasize visual integrity. All product imagery is shot in natural lighting without deceptive color filtering. Remind the client that they do not take any financial risk because the open-box policy at the door allows physical inspection before parting with any money.\n\n### Objection 4: \"خايف يجي المقاس مشي قدّي\" (Uncertain about size fit)\n- **Sales Response Logic:** Offer precise guidance by requesting current height (cm) and weight (kg) to match against the catalog's tailored cut. Reassure them with the guaranteed 7-day hassle-free exchange policy if adjustment is needed after home fitting.\n\n### Objection 5: \"نشاور الدار / نسقسي ونرجعلك\" (I need time to decide / consult)\n- **Sales Response Logic:** Respect their time while creating gentle scarcity. Note that Old Money drops are released in limited boutique quantities to preserve exclusivity, meaning specific sizes sell out fast. Offer to hold the item in inventory temporarily while they decide.\n\n### Objection 6: \"كيفاه نضمن بلي مشي أرناك؟\" (How do I know this is legitimate?)\n- **Sales Response Logic:** Point out the complete absence of risk. No credit card or deposit is ever requested. Payment occurs 100% in cash only after holding, opening, and approving the physical garment at delivery.\n\n### Objection 7: \"نوعية القماش واش هي بالضبط؟\" (What is the exact fabric quality?)\n- **Sales Response Logic:** Provide precise material specifications (e.g., heavy cotton weave, breathable linen blends, structured drape) from the product catalog, and remind them that the feel and weight can be verified firsthand upon delivery.\n\n### Objection 8: \"إذا التوصيل يدي وقت طويل بزاف ما نحتاجوش\" (Delivery might take too long)\n- **Sales Response Logic:** Reassure immediate handling. Orders ship within 24 hours. Suggest Office Pickup (Stop Desk) as the fastest route for clients who want to collect their package as soon as it arrives at the local hub without waiting for courier routing.\n\n### Objection 9: \"قصلي شوية في السوم / ديرلي تخفيض\" (Is the price negotiable / Can I get a discount?)\n- **Sales Response Logic:** Maintain a polite yet firm brand stance. Explain that Old Money strictly adheres to a fixed-price policy for all customers to ensure complete fairness. Highlight that the price directly corresponds to the uncompromised fabric standards, craftsmanship, and the risk-free inspection service offered with every order.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        -144
+      ],
+      "id": "70ff460f-5fb2-4cce-aef3-bbaceee6ff9e",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "embeddingBatchSize": 2,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        368,
+        -144
+      ],
+      "id": "ddf245ae-124f-48fa-bd9d-848ae587966d",
+      "name": "Supabase Vector Store",
+      "credentials": {
+        "supabaseApi": {
+          "id": null,
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "textSplittingMode": "custom",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        512,
+        64
+      ],
+      "id": "7bb5366b-2717-4dea-ba4a-19506d07c5b0",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "chunkSize": 800,
+        "chunkOverlap": 100,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        608,
+        272
+      ],
+      "id": "1c9797de-b2d9-4177-b7d6-7400fde3960f",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        304,
+        80
+      ],
+      "id": "53924048-47fd-41fb-b31c-d5ccc19d1cd1",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=\"أنت مساعد مبيعات ذكي لبراند Old Money في الجزائر. أسلوبك محترم وواضح ومُقنع بالعامية الجزائرية والفرنسية/العربية البسيطة. وظيفتك الإجابة على استفسارات الزبائن والرد على اعتراضاتهم (حول السعر، التوصيل، حق المعاينة، المقاسات، والضمان) باستخدام الأداة المتاحة لديك للبحث في سياسات المتجر.\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        304,
+        560
+      ],
+      "id": "9743a779-a844-4fd0-979b-ad4eb92486cd",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -32,
+        560
+      ],
+      "id": "aa0b0e58-7c23-412d-a2fa-6c5a56aa2d88",
+      "name": "When chat message received",
+      "webhookId": "331b24bb-8fb4-4e45-ac80-df388204c3e6"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        160,
+        768
+      ],
+      "id": "f652136a-62c1-4567-98d1-05b06f7a33cd",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": null,
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "\"Use this tool to search store shipping rules (58 wilayas), delivery timelines, stop desk, cash on delivery, open-box package inspection rights, 7-day exchange policies, and handling customer sales objections regarding price, location, photos, size fit, legitimacy, fabric quality, and delivery speed.\"",
+        "topK": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Limit', ``, 'number') }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1.1,
+      "position": [
+        464,
+        768
+      ],
+      "id": "9a3c8d7a-4391-41cb-ac9d-164cc26246a6",
+      "name": "Answer questions with a vector store"
+    },
+    {
+      "parameters": {
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        208,
+        976
+      ],
+      "id": "67126bf3-b511-487d-8efa-dd4fb52c6bdd",
+      "name": "Supabase Vector Store1",
+      "credentials": {
+        "supabaseApi": {
+          "id": null,
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        1152
+      ],
+      "id": "12fc47e4-5307-4077-990e-73d7ca4c16ea",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        560,
+        912
+      ],
+      "id": "7f3da652-3d80-46a4-a6ed-c61d9f15d479",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": null,
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Ingestion Step",
+        "height": 672,
+        "width": 960
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -128,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "87029cea-ba1a-4727-bd2d-27604407cade",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Chat Step",
+        "height": 848,
+        "width": 960,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -128,
+        480
+      ],
+      "typeVersion": 1,
+      "id": "834570aa-2200-4643-85d3-a01ba7c5ca0e",
+      "name": "Sticky Note1"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Answer questions with a vector store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store1": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "nodeGroups": []
+}

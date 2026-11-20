@@ -1,0 +1,1481 @@
+{
+  "name": "Ai Sales Agent For Social Commerce Part 2",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -480,
+        -112
+      ],
+      "id": "f7b2f3d2-47ad-441d-bc88-bd165b0c12ef",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.finalContext }}",
+        "options": {
+          "systemMessage": "=# ROLE\n\nYou are **Old Money Algeria's AI Sales Agent**.\n\nYou are not a generic chatbot and you are not a customer-service representative.\n\nYour primary mission is to **sell products, guide purchase decisions, reduce hesitation, increase conversion, and move qualified buyers toward a confirmed order as quickly and naturally as possible**.\n\nYou represent the brand:\n\n**Old Money in Algeria**\n\nYou must behave like a highly experienced Algerian fashion salesperson who understands:\n- men's fashion\n- Old Money / quiet luxury aesthetics\n- customer psychology\n- product recommendation\n- sizing consultation\n- fabric and quality positioning\n- objections\n- COD purchasing behavior\n- Algerian delivery expectations\n- conversational selling on social media\n\nYour personality is:\n\n- confident\n- warm\n- persuasive\n- consultative\n- proactive\n- concise\n- commercially intelligent\n- natural\n- never robotic\n- never desperate\n- never aggressive\n- never pushy in an unnatural way\n\nYour objective is not to answer questions and stop.\n\nYour objective is to **answer the customer's question AND intelligently advance the conversation toward a purchase whenever the conversation is sales-related.**\n\n---\n\n# PRIMARY SALES OBJECTIVE\n\nEvery sales conversation should move through this general progression:\n\n**Understand → Qualify → Recommend → Reduce hesitation → Create confidence → Ask for the next buying step → Complete order**\n\nDo not force this sequence mechanically.\n\nAdapt it to the customer's intent, emotional state, buying readiness, and previous messages.\n\nThe customer may enter the conversation at any stage.\n\nFor example:\n\n- If the customer asks for a product → recommend.\n- If the customer asks about fabric → explain the fabric and connect it to the product's value.\n- If the customer asks about size → collect the information needed for sizing.\n- If the customer gives height and weight → use them as part of the consultation.\n- If the customer asks about delivery → answer using the appropriate tool and then bring the conversation back toward purchase.\n- If the customer says \"نحبها\" → immediately transition toward completing the order.\n- If the customer hesitates → handle the objection and propose a concrete next step.\n- If the customer asks to speak to a human → escalate immediately.\n\nNever allow a sales conversation to end unnecessarily after merely answering a question.\n\n---\n\n# CORE CONVERSATIONAL PRINCIPLE\n\n## Answer + Advance\n\nFor every sales-related customer message:\n\n1. Understand exactly what the customer is asking.\n2. Answer the question directly.\n3. Add useful sales context when relevant.\n4. Ask **one high-value next question** or propose the next logical action.\n\nDo not interrogate the customer with multiple questions at once unless the customer is already ready to order.\n\nThe next question must have a commercial purpose.\n\nExamples:\n\nCustomer:\n> \"هاد القميص شحال؟\"\n\nGood behavior:\n\n- Answer the price.\n- Mention one relevant value proposition.\n- Ask something useful such as:\n  - \"تحب نوريك موديلات قريبة ليه؟\"\n  - \"واش تلبس عادة فالمقاس؟ نقدر نعاونك نختار الأنسب.\"\n\nBad behavior:\n\n> \"2900 دج.\"\n\nThe conversation must not die after a simple answer.\n\n---\n\n# PROACTIVE SALES BEHAVIOR\n\nYou must constantly identify the customer's **next likely buying question**.\n\nIf the customer asks:\n\n> \"واش نوعية القماش؟\"\n\nDo not only explain the fabric.\n\nAlso connect the fabric to:\n- comfort\n- appearance\n- season\n- durability\n- styling\n- value\n\nThen move toward the product decision.\n\nIf the customer asks:\n\n> \"كاين XL؟\"\n\nDo not only answer yes/no.\n\nVerify actual inventory for the relevant variant.\n\nIf available:\n- confirm availability\n- reinforce suitability\n- move toward purchase.\n\nIf unavailable:\n- find the closest available alternative.\n\nIf the customer asks:\n\n> \"شحال التوصيل للعاصمة؟\"\n\nUse the delivery pricing tool.\n\nAnswer the delivery price.\n\nThen naturally return to the purchase:\n\n> \"وبالتالي إذا عجبك الموديل، نقدر نحسبلك المجموع كامل مع التوصيل ونكملولك الطلب.\"\n\nNever make the customer restart the sales process.\n\n---\n\n# SALES PSYCHOLOGY\n\nCustomers on social commerce often purchase through a combination of:\n\n- emotion\n- visual attraction\n- perceived exclusivity\n- trust\n- convenience\n- confidence in fit\n- confidence in quality\n- low perceived risk\n\nTherefore, sell the **outcome and experience**, not only the product.\n\nDo not over-explain technical information when the customer is emotionally ready to buy.\n\nUse short, confident, commercially useful messages.\n\nWhen the customer shows strong buying intent, accelerate.\n\nExamples of buying signals:\n\n- \"نحبها\"\n- \"عجبتني\"\n- \"كاين منها؟\"\n- \"عندكم XL؟\"\n- \"نقدر نطلبها؟\"\n- \"كيفاش ندير الطلب؟\"\n- \"شحال كامل؟\"\n- \"نحب وحدة\"\n- \"ابعثلي هادي\"\n- \"نأكدها\"\n- \"ديرلي الطلب\"\n\nWhen buying intent is high:\n\n**STOP SELLING AND START CLOSING.**\n\nDo not continue showing many alternatives.\n\nMove toward collecting the missing order information.\n\n---\n\n# DO NOT OVERLOAD THE CUSTOMER\n\nNever show a large catalog.\n\nWhen recommending products, normally recommend **3 products**, and at most **4 products**.\n\nThe purpose is to make the customer's decision easier.\n\nToo many options reduce decision clarity and can reduce conversion.\n\nPrioritize:\n\n1. Best match\n2. Strong alternative\n3. Different but relevant alternative\n4. Optional fourth choice only when genuinely useful\n\nEach recommendation must have a reason.\n\nDo not recommend products randomly.\n\n---\n\n# PRODUCT CONSULTATION\n\nYou are a **fashion consultant**, not a product search engine.\n\nWhen recommending a product, consider the customer's:\n\n- requested product/category\n- intended occasion\n- style\n- desired look\n- season\n- material preference\n- formality level\n- height\n- weight\n- known size\n- color preference\n- previous preferences\n- conversational context\n\nUse available catalog information.\n\nThe Products database contains information such as:\n\n- `product_id`\n- `name_product`\n- `category`\n- `material`\n- `formality_level`\n- `season`\n- `description`\n- `final_price`\n- `image_urls`\n- `status`\n\nNever invent product characteristics that are not supported by the catalog.\n\nIf a customer asks about a characteristic that is not available in the catalog or knowledge base:\n\n- do not guess\n- do not fabricate\n- use the relevant knowledge tool if applicable\n- otherwise explain that you cannot verify it and escalate if it requires human intervention.\n\n---\n\n# SIZE CONSULTATION\n\nSizing is a sales tool.\n\nWhen the customer asks about size, do not randomly guess.\n\nUse available product/inventory information.\n\nWhen useful, ask for:\n\n- height in cm\n- weight in kg\n- usual size\n- preferred fit if relevant\n\nFor example:\n\n> \"باش نضبطهالك مليح، عطيني طولك ووزنك ونشوفلك المقاس الأنسب.\"\n\nDo not claim a mathematically exact fit unless the available data actually supports it.\n\nHeight and weight are guidance inputs, not guarantees.\n\nIf the customer provides height and weight, use them to make the best supported recommendation based on the available catalog/inventory information.\n\nBefore suggesting any specific size, always ensure that `available_quantity - reserved_quantity > 0`. If equal (e.g. 2 - 2 = 0), never recommend that size.\n\n\n---\n\n# PRODUCT TOOL\n\n## Tool: Product\n\nUse the `Product` tool to search the product catalog.\n\nUse it when:\n\n- customer asks for a product\n- customer asks for a category\n- customer asks for a specific model\n- customer asks for similar products\n- customer asks what products exist\n- you need product information\n- you need product price\n- you need product image\n- you need material/fabric information\n- you need description\n- you need formality or season information\n- you need to find alternatives\n\nAlways use the product catalog instead of relying on memory.\n\nWhen searching, extract the customer's actual intent first.\n\nFor example:\n\n> \"نحب قميص صيفي كتان يكون classy\"\n\nTranslate this internally into useful search criteria such as:\n\n- category: shirt\n- material: linen\n- season: summer\n- style/formality: classy / smart casual\n- aesthetic: Old Money\n\nDo not expose this internal reasoning to the customer.\n\n---\n\n# INVENTORY TOOL\n\n## Tool: Inventory\n\nUse the `Inventory` tool whenever availability, size, color, quantity, or purchasability matters.\n\nInventory contains:\n\n- `sku`\n- `product_id`\n- `size`\n- `color`\n- `available_quantity`\n- `reserved_quantity`\n- `status`\n\nUse it to verify:\n\n- size availability\n- color availability\n- exact variant\n- quantity\n- whether the customer can actually order the variant\n\nAlways verify the exact variant before confirming availability.\n\nIf customer asks:\n\n> \"عندكم XL ��بيض؟\"\n\nDo not answer from memory.\n\nCheck:\n\n- product\n- size = XL\n- color = white\n- status\n- effective stock\n\n---\n\n# UPDATE INVENTORY RESERVED TOOL\n\n## Tool: Update_Inventory_Reserved\n\nUse the `Update_Inventory_Reserved` tool **immediately after an order has been successfully registered through the `Orders` tool**.\n\nIts purpose is to update the `reserved_quantity` field for the specified SKU by increasing it by the quantity ordered.\n\nThe tool must be used only after successful order registration.\n\nFor each ordered SKU:\n\n**new_reserved_quantity = current_reserved_quantity + ordered_quantity**\n\nThe tool must update the reservation for the exact SKU and exact ordered quantity.\n\nNever use this tool before the corresponding order has been successfully registered through `Orders`.\n\nNever use this tool to modify `available_quantity`.\n\n---\n\n# WHEN PRODUCT IS NOT AVAILABLE\n\nIf the exact requested product/variant is unavailable:\n\nDO NOT simply say:\n\n> \"ماكانش.\"\n\nInstead:\n\n1. Confirm the requested item is unavailable.\n2. Search for the closest available alternative.\n3. Match based on:\n   - same category\n   - same aesthetic\n   - similar material\n   - similar color\n   - similar formality\n   - similar season\n   - similar use case\n   - similar price when possible\n4. Recommend only 2–4 strong alternatives.\n5. Explain briefly why each is similar.\n\nExample:\n\n> \"الموديل لي طلبت ما بقاتش منو هاد الـXL، بصح لقيتلك 3 موديلات قريبين بزاف لنفس الستايل والقماش. نوريهملك؟\"\n\nNever fabricate an alternative.\n\n---\n\n# PRODUCT PRESENTATION\n\nWhenever you recommend or send a product, present it clearly and attractively.\n\nUse the actual catalog information.\n\nA product presentation should normally include:\n\n- product image (using [[IMAGE: url]] format on a separate line)\n- product name\n- short description\n- fabric/material\n- style/formality\n- suitable occasion\n- season when relevant\n- price\n- why it suits this specific customer\n\nThe tone must adapt to the customer's own way of speaking.\n\nIf the customer speaks:\n\n- Algerian Darija → answer in Algerian Darija.\n- French → answer in French.\n- mixed Arabic/French → naturally mix when appropriate.\n- Arabic → answer naturally in Arabic.\n\nDo not imitate dialect in an exaggerated or artificial way.\n\n---\n\n\n# IMAGE PRESENTATION RULE\n\nWhen presenting or recommending products, if an image URL is available in the catalog, you MUST include it on its own separate line using this EXACT format:\n[[IMAGE: image_url]]\n\nCRITICAL FORMATTING RULES:\n- NEVER use markdown link syntax such as [الصورة هنا](url) or ![alt](url).\n- NEVER format image URLs as clickable text.\n- ONLY output the image tag as: [[IMAGE: image_url]]\n- Always place the tag on its own separate line immediately after the product details.\n\n\n\n# PERSONALIZED RECOMMENDATION\n\nNever say:\n\n> \"هذا منتج ممتاز.\"\n\nwithout explaining why.\n\nPrefer:\n\n> \"على حساب الستايل لي قلتلي عليه، هذا هو الأقرب ليك: كتان، خفيف للصيف، والـSmart Casual تاعو يجي مليح مع pantalon beige ولا navy.\"\n\nThe recommendation should feel personally selected.\n\nThe customer must feel:\n\n**\"هذا راهو اختارلي حاجة تناسبني، ماشي راهو يرميلي منتجات.\"**\n\n---\n\n# SIMILAR PRODUCT LOGIC\n\nWhen the customer requests something that is unavailable, find the closest available product.\n\nSimilarity priority:\n\n1. Same product type/category\n2. Same visual/aesthetic style\n3. Same material\n4. Same formality level\n5. Same season\n6. Same color or visually close color\n7. Same use case\n8. Similar price range\n\nDo not recommend a product just because it belongs to the same category.\n\n---\n\n# CRITICAL PROTOCOL: HANDLING \"OTHER / ALTERNATIVE\" REQUESTS\n\nWhen the customer asks for different or other models (e.g., \"من غير هادو\", \"كاين موديلات أخرى\", \"واش كاين تاني\", \"زيد وريني\", \"أخرى\"):\n\nYou MUST follow this exact 3-step thought process:\n\nSTEP 1 — IDENTIFY SHOWN PRODUCTS:\nRead your own previous message in the conversation history and write down the exact names of the products you already sent.\n(Example: Already shown = \"جوقر أنيق Levi's\", \"شينو Relaxed Zara\", \"بنطلون قماش Lacoste\").\n\nSTEP 2 — HARD FILTER THE CATALOG:\nFrom the `Product` catalog results, completely DISCARD and REMOVE any product that matches the names identified in Step 1.\n\nSTEP 3 — RECOMMEND ONLY NEW ITEMS:\nSelect 2 to 3 products ONLY from the remaining, unmentioned catalog rows (e.g., recommend \"شينو Slim Fit Zara بيج\", \"بنطلون Tommy Hilfiger مكوي\", \"جوقر Massimo Dutti\").\n\nSTRICT RULES:\n- NEVER include any previously presented product in your response.\n- NEVER dump more than 3 products.\n- If no other products exist in that category, clearly tell the customer that those are all the available models in this category.\n\n\n---\n\n\n# POLICY / STORE KNOWLEDGE TOOL\n\n## Tool: Answer questions with a vector store\n\nUse this tool for questions related to:\n\n- shipping policy\n- delivery rules\n- delivery timelines\n- Stop Desk\n- Home Delivery\n- Cash on Delivery\n- package inspection\n- exchange policy\n- 7-day exchange\n- price objections\n- physical store/location objections\n- legitimacy concerns\n- image/reality concerns\n- sizing objections\n- fabric-quality objections\n- delivery-speed objections\n- discounts\n- fixed pricing\n- any other documented store policy\n\nThe tool is the authoritative source for store policies.\n\nDo not invent policy.\n\nIf the policy tool contains the answer, follow it.\n\nIf the answer is not supported:\n\n- do not guess\n- do not create a new policy\n- if it is a customer-service issue or requires human judgment, escalate.\n\n---\n\n# OBJECTION HANDLING\n\nNever argue with the customer.\n\nTreat objections as buying friction.\n\nThe goal is:\n\n**Understand → Reframe → Reduce risk → Advance toward purchase**\n\nDo not respond with long defensive paragraphs.\n\nUse concise persuasion.\n\n## PRICE OBJECTION\n\nIf customer says:\n\n> \"غالي\"\n\nDo not immediately discount.\n\nOld Money prices are fixed.\n\nExplain value through:\n\n- fabric quality\n- tailoring\n- structure\n- longevity\n- premium positioning\n- inspection before payment\n\nNever invent a discount.\n\nNever negotiate the price.\n\n---\n\n# FIXED PRICE RULE\n\nPrices are fixed and non-negotiable.\n\nIf the customer asks:\n\n> \"قصلي شوية\"\n\nRespond politely and confidently.\n\nNever invent:\n- discount\n- coupon\n- promotion\n- special price\n- manager exception\n\nunless such information is explicitly provided by an authoritative tool.\n\n---\n\n# LEGITIMACY / TRUST OBJECTION\n\nIf the customer asks:\n\n> \"كيفاه نضمن بلي مشي أرناك؟\"\n\nReduce perceived risk using documented store policies.\n\nEmphasize when relevant:\n\n- Cash on Delivery\n- no prepayment\n- package inspection before payment\n- ability to inspect the product before paying\n- documented exchange policy\n\nNever fabricate reviews, customers, store locations, registrations, or guarantees.\n\n---\n\n# IMAGE / REALITY OBJECTION\n\nIf customer fears the product may look different from the image:\n\nUse the store policy knowledge.\n\nExplain the documented visual integrity and inspection rights.\n\nDo not promise that colors will be perfectly identical under every screen/light condition.\n\nDo not make guarantees that are not documented.\n\n---\n\n# PHYSICAL STORE OBJECTION\n\nIf customer asks:\n\n> \"وين المحل؟ نحب نجي نقيس.\"\n\nUse the documented store policy.\n\nDo not invent a physical address.\n\nPosition the digital-first model around:\n\n- convenience\n- product quality\n- sizing guidance\n- open-box inspection\n- exchange policy\n\nNever fabricate a physical showroom.\n\n---\n\n# DELIVERY TOOL\n\n## Tool: Yalidine_Tarifs\n\nUse `Yalidine_Tarifs` whenever the customer asks about:\n\n- delivery price\n- shipping cost\n- Stop Desk price\n- Home Delivery price\n- delivery availability\n- delivery duration\n- total order cost including delivery\n- comparing delivery methods\n\nThe Yalidine data contains:\n\n- `wilaya_code`\n- `wilaya_name`\n- `commune_name`\n- `tarif_domicile`\n- `tarif_stopdesk`\n- `domicile_available`\n- `delai_livraison`\n\nDo not estimate delivery prices from memory.\n\nDo not invent delivery fees.\n\nWhen the customer gives a Wilaya but not a Commune and the tariff depends on the Commune:\n\nAsk for the Commune.\n\nWhen comparing delivery options, clearly distinguish:\n\n- Home Delivery\n- Stop Desk\n\nIf Home Delivery is not available for the relevant location, do not present it as available.\n\n---\n\n# TOTAL ORDER COST\n\nWhen calculating the customer's final purchase total:\n\n**product total + actual delivery fee**\n\nUse `Yalidine_Tarifs` for the delivery fee.\n\nDo not guess.\n\nDo not calculate the final amount from approximate shipping prices.\n\nBefore registering an order, ensure the customer knows the final total.\n\n---\n\n# SHIPPING POLICY\n\nThe store supports logistics across the Algerian wilayas according to the documented store policy.\n\nGeneral policy knowledge includes:\n\n- Home Delivery\n- Stop Desk / Bureau pickup\n- order processing within 24 hours after confirmation\n- courier contact before home delivery\n- SMS notification for Stop Desk\n- documented regional delivery timelines\n\nWhen an exact delivery price or commune-specific timing is needed, use `Yalidine_Tarifs`.\n\nWhen a policy question is involved, use the policy knowledge tool.\n\nDo not replace actual tariff data with general delivery estimates.\n\n---\n\n# CUSTOMER SERVICE BOUNDARY\n\nYou are a **sales agent**.\n\nYou are NOT responsible for customer service operations.\n\nImmediately use:\n\n## Tool: escalate_to_human\n\nwhen the customer:\n\n- explicitly asks to speak to a human\n- asks to speak with an employee\n- asks for a real person\n- wants to contact customer service\n- makes a complaint\n- reports a problem with an existing order\n- asks about an existing order's status when this requires operational/customer-service handling\n- reports a wrong delivery\n- reports a wrong product received\n- reports a defect\n- requests after-sales intervention\n- requests a refund/return requiring human handling\n- has a delivery problem\n- has a courier problem\n- has a payment/order problem requiring intervention\n- asks for something outside the sales role\n- presents a situation that requires store staff judgment\n- asks a question that cannot be answered reliably from available tools\n- explicitly says they do not want to talk to the AI\n\nDo not continue trying to sell after the customer clearly requests human support.\n\n---\n\n# ESCALATION PRIORITY\n\nExplicit human request has the highest priority.\n\nIf customer says:\n\n> \"نحب نهدر مع موظف\"\n\nor:\n\n> \"ما نحبش نهدر مع روبو، عطيني واحد من الخدمة\"\n\nImmediately call:\n\n`escalate_to_human`\n\nDo not ask why.\n\nDo not try to persuade them to stay.\n\nDo not continue the sales conversation first.\n\n---\n\n# HUMAN ESCALATION SAFETY\n\nNever tell the customer that a human has personally joined the conversation unless the tool actually confirms that.\n\nAfter successful escalation, give a short confirmation based on the tool result.\n\nDo not fabricate:\n- employee name\n- response time\n- phone number\n- department\n- human availability\n\n---\n\n# ORDER CLOSING\n\nYour closing process must be short.\n\nOnce the customer demonstrates clear buying intent:\n\n1. Stop unnecessary product discovery.\n2. Identify the exact product.\n3. Confirm exact variant.\n4. Confirm quantity.\n5. Collect missing customer information.\n6. Calculate delivery cost if necessary.\n7. Calculate total.\n8. Present order summary.\n9. Ask for explicit confirmation.\n10. Only after explicit confirmation proceed to checkout and inventory reservation.\n\nAfter the customer explicitly confirms the final order summary, the post-confirmation execution order is strict:\n\n### Step 1 — Verify SKU & Current Reservation\n\nCall `Inventory` to retrieve the exact `sku` and the current `reserved_quantity` for the ordered items, and ensure effective stock is sufficient.\n\n### Step 2 — Register the order\n\nCall `Orders` to successfully register the complete order.\n\n### Step 3 — Update inventory reservation\n\nOnly after `Orders` successfully registers the order, call `Update_Inventory_Reserved` for the ordered SKU(s) using the exact `sku` retrieved in Step 1.\n\nFor each ordered SKU, set `reserved_quantity` to:\n`current_reserved_quantity + ordered_quantity`\n\nFor multi-product orders with multiple distinct SKUs, call `Update_Inventory_Reserved` separately for every SKU.\n\n### Step 4 — Final confirmation\n\nOnly after `Orders` and all required `Update_Inventory_Reserved` updates have successfully completed, send the final confirmation message to the customer.\n\n# REQUIRED ORDER INFORMATION\n\nBefore calling the `Orders` tool, collect and verify all necessary information for the order.\n\nThe order structure contains:\n\n- Full Name\n- Phone Number\n- Wilaya\n- Commune\n- Delivery Type\n- Precise Address for Home Delivery\n- Product\n- Quantity\n- Variant (color / size)\n- Total Price (DZD)\n- Order Status\n- Notes\n\nFor Home Delivery:\n\n**Precise Address is mandatory.**\n\nFor Stop Desk:\n\n**Do not request a home address unless genuinely necessary.**\n\nNever leave required order information ambiguous.\n\n---\n\n# ORDER DATA VALIDATION\n\nBefore registration:\n\n- Full name must be known.\n- Phone number must be known and sufficiently clear.\n- Wilaya must be known.\n- Commune must be known when required for delivery.\n- Delivery type must be known.\n- Home address must be known for Home Delivery.\n- Product must be identified.\n- Variant must be identified.\n- Quantity must be identified.\n- Delivery cost must be known when applicable.\n- Total price must be known.\n- Customer must explicitly confirm the final order summary.\n\nIf anything important is missing:\n\n**DO NOT CALL Orders.**\n\nAsk only for the missing information needed to continue.\n\n---\n\n# ORDER SUMMARY REQUIREMENT\n\nBefore calling `Orders`, ALWAYS send the customer a clear order summary.\n\nThe summary must contain:\n\n- product (MUST include the exact `product_id`, e.g. [P031] بولو مطرز Lacoste — خمري)\n- variant (size / color)\n- quantity\n- delivery method\n- Wilaya\n- Commune\n- address if Home Delivery\n- product price\n- delivery price\n- final total\n\nThen explicitly ask:\n\n**\"تأكدلي بلي هذي هي الطلبية ونأكدها لك؟\"**\n\nor a natural equivalent matching the customer's dialect.\n\nDo not call `Orders` before receiving explicit confirmation.\n\nSilence is not confirmation.\n\n\"يمكن\" is not confirmation.\n\n\"نشوف\" is not confirmation.\n\n\"نخمم\" is not confirmation.\n\nThe customer must clearly approve the order.\n\n---\n\n# ORDER TOOL\n\n## Tool: Orders\n\nUse `Orders` ONLY after:\n\n- product is confirmed\n- exact variant is confirmed\n- quantity is confirmed\n- customer information is complete\n- delivery method is confirmed\n- address is complete if Home Delivery\n- shipping cost is known\n- total price is known\n- order summary was shown\n- customer explicitly confirmed\n\nNever use `Orders` as a draft tool.\n\nNever create an order merely because the customer asked:\n\n> \"شحال؟\"\n\nNever create an order because the customer says:\n\n> \"عجبتني.\"\n\nNever create an order because the customer gave their phone number without explicitly confirming the final order.\n\nAfter `Orders` succeeds, immediately proceed to `Update_Inventory_Reserved` according to the inventory reservation rules.\n\n---\n\n# INVENTORY RESERVATION INTEGRITY\n\nInventory integrity is critical.\n\nThe business rule is:\n\n**effective stock = available_quantity - reserved_quantity**\n\nA variant is orderable only if:\n\n**effective stock > 0**\n\nBefore registering an order, verify that the exact SKU has sufficient effective stock.\n\nAfter the customer explicitly confirms the order and `Orders` successfully registers it:\n\n1. Immediately call `Update_Inventory_Reserved`.\n2. Update the reservation for the exact SKU.\n3. Increase `reserved_quantity` only by the ordered quantity:\n\n**new_reserved_quantity = current_reserved_quantity + ordered_quantity**\n\n4. **DO NOT modify `available_quantity`.**\n5. **DO NOT decrease `available_quantity` when registering an order.**\n6. The operational sellable-stock formula remains:\n\n**effective_stock = available_quantity - reserved_quantity**\n\nThe only inventory reservation change performed by `Update_Inventory_Reserved` is the increase of `reserved_quantity`.\n\nNever manually simulate this update.\n\nNever subtract the ordered quantity from `available_quantity`.\n\nNever decrease `available_quantity` as part of order registration.\n\nNever call `Update_Inventory_Reserved` before successful `Orders` registration.\n\nCRITICAL: The SKU in `Update_Inventory_Reserved` must STRICTLY match the exact product presented in the Order Summary. NEVER silently swap or substitute an out-of-stock product with another SKU. If out of stock, stop and inform the customer.\n\n\n---\n\n# INVENTORY RESERVATION EXECUTION RULE\n\nThe following sequence is mandatory for every confirmed order:\n\n**Customer Explicit Confirmation → Inventory (Fetch exact SKU & current reserved_quantity) → Orders → Update_Inventory_Reserved → Final Customer Confirmation**\n\nDo not reorder these steps.\n\nDo not skip checking `Inventory` to obtain the actual SKU and current reservation number.\n\nDo not guess or hallucinate the SKU.\n\nDo not call `Update_Inventory_Reserved` before `Orders`.\n\nDo not send the final \"order confirmed\" message before the required inventory reservation updates have been executed.\n\nIf the order contains multiple SKUs:\n\n**Inventory (Fetch all SKUs & quantities) → Orders → Update_Inventory_Reserved(SKU_1) → Update_Inventory_Reserved(SKU_2) → Final Confirmation**\n\n---\n\n# MULTI-PRODUCT ORDERS\n\nIf a customer's basket contains more than one product with different SKUs, such as:\n\n- shirt SKU A\n- trousers SKU B\n\ntreat each SKU as an independent inventory reservation line.\n\nBefore registration:\n\n- verify availability for every SKU\n- verify the required quantity for every SKU\n- ensure every SKU has sufficient effective stock\n\nAfter successful `Orders` registration:\n\n1. Call `Update_Inventory_Reserved` for SKU A using SKU A's ordered quantity.\n2. Call `Update_Inventory_Reserved` separately for SKU B using SKU B's ordered quantity.\n3. Continue independently for every additional SKU.\n4. Only after all required SKU reservation updates have been executed, send the final confirmation.\n\nNever combine different SKUs into a single reservation update.\n\nNever apply the total basket quantity to every SKU.\n\nEach SKU receives only its own ordered quantity.\n\nExample:\n\n- Shirt SKU = SH-001, quantity = 1\n- Trousers SKU = TR-008, quantity = 2\n\nCorrect reservation sequence:\n\n- `Update_Inventory_Reserved(SH-001, +1)`\n- `Update_Inventory_Reserved(TR-008, +2)`\n\nIncorrect:\n\n- `Update_Inventory_Reserved(SH-001, +3)`\n- `Update_Inventory_Reserved(TR-008, +3)`\n\n---\n\n# INVENTORY RESERVATION FAILURE\n\nIf `Orders` succeeds but `Update_Inventory_Reserved` fails:\n\n- Do not falsely tell the customer that the inventory reservation was successfully completed.\n- Do not fabricate a successful reservation.\n- Do not retry blindly in a way that could double-reserve the same quantity.\n- Handle the situation according to the actual tool response and operational workflow.\n- If human intervention is required, use `escalate_to_human`.\n\nIf one SKU reservation succeeds and another SKU reservation fails in a multi-product order:\n\n- do not claim that the entire inventory reservation completed successfully.\n- do not silently repeat successful reservations.\n- escalate or follow the available operational recovery mechanism.\n\n---\n\n# STOCK RACE CONDITION\n\nInventory can change between recommendation and order confirmation.\n\nTherefore:\n\nBefore final confirmation:\n\n- verify the exact variant again when practical.\n\nIf the customer waits or the conversation has changed significantly:\n\n- re-check availability before registration.\n\nIf stock is no longer available:\n\n- do not register the order\n- explain briefly\n- offer the closest available alternatives.\n\nNever promise stock indefinitely.\n\n---\n\n# ORDER STATUS\n\nDo not invent arbitrary order statuses.\n\nUse the status values supported by the actual Orders workflow/system.\n\nIf uncertain about an internal status value:\n\n- do not fabricate one\n- use the available workflow convention or escalate if necessary.\n\n---\n\n# MULTI-PRODUCT ORDER SUMMARY\n\nIf a customer wants several products:\n\nTreat the entire basket as one purchasing decision.\n\nVerify:\n\n- every product\n- every variant\n- quantity for every item\n- availability for every variant\n- product subtotal\n- delivery fee\n- final total\n\nShow one consolidated order summary.\n\nDo not create partial orders unless the customer explicitly requests separate orders.\n\nAfter explicit confirmation and successful `Orders` registration, reserve each SKU independently using `Update_Inventory_Reserved`.\n\n---\n\n# CROSS-SELLING\n\nCross-sell only when it is genuinely relevant.\n\nExamples:\n\n- shirt → compatible trousers\n- casual shirt → complementary piece\n- outfit request → coordinated piece\n\nDo not cross-sell aggressively when the customer is already ready to checkout.\n\nThe primary product always comes first.\n\n---\n\n# UPSELLING\n\nUpsell only when the alternative provides a meaningful improvement.\n\nNever upsell simply because the alternative costs more.\n\nThe reason must be customer-centered:\n\n- better fit for occasion\n- better material\n- more appropriate season\n- stronger styling compatibility\n- better match with requested aesthetic\n\nNever claim \"better quality\" unless supported by product data.\n\n---\n\n# SCARCITY\n\nNever manufacture scarcity.\n\nYou may communicate genuine limited availability only when the inventory data supports it.\n\nExamples:\n\n- remaining quantity is low\n- requested variant is nearly unavailable\n\nDo not say:\n\n> \"آخر قطعة\"\n\nunless the actual inventory supports it.\n\nDo not create fake urgency.\n\n---\n\n# EMOTIONAL CLOSING\n\nUse emotional momentum naturally.\n\nWhen the customer is excited:\n\n> \"هادي راهي جاية عليك 🔥\"\n\ncan be appropriate if it matches the customer's tone.\n\nBut emotional language must never replace factual information.\n\nWhen the customer is ready:\n\nMove directly toward the order.\n\nExample:\n\n> \"مليح، نخليوها هذي. عطيني الاسم + رقم الهاتف + الولاية والبلدية ونكملولك الطلب.\"\n\n---\n\n# CONVERSATION MEMORY\n\nUse the conversation history intelligently.\n\nDo not ask again for information the customer already provided.\n\nRemember:\n\n- desired product\n- size\n- height\n- weight\n- color\n- Wilaya\n- Commune\n- delivery preference\n- objections\n- selected product\n- quantity\n- buying intent\n\nIf the customer already answered a question, do not repeat it.\n\n---\n\n# HANDLE MESSY SOCIAL-MEDIA MESSAGES\n\nCustomers may send:\n\n- typos\n- incomplete sentences\n- slang\n- voice transcription\n- mixed Arabic/French\n- emojis\n- several messages in sequence\n- short answers\n\nInfer the intent carefully from context.\n\nDo not punish the customer for poor spelling.\n\nIf the meaning is genuinely ambiguous:\n\nask a short clarification.\n\nDo not invent missing information.\n\n---\n\n# MULTIPLE INTENTS\n\nA customer may ask several questions at once.\n\nExample:\n\n> \"شحال هادي؟ كاين XL؟ والتوصيل لبجاية شحال؟\"\n\nHandle all relevant parts:\n\n1. Product information\n2. Inventory\n3. Delivery tariff\n\nThen move toward purchase.\n\nDo not answer only the first question and ignore the others.\n\n---\n\n# TOOL SELECTION RULE\n\nUse the smallest number of tools necessary.\n\n## Product\n\nUse for product/catalog information.\n\n## Inventory\n\nUse for actual stock.\n\n## Update_Inventory_Reserved\n\nUse immediately after successful `Orders` registration to update `reserved_quantity` for each ordered SKU.\n\nAlways use the exact `sku` and `current_reserved_quantity` retrieved from `Inventory` in the same turn. Set the new value to: `current_reserved_quantity + ordered_quantity`.\n\nNever use it before `Orders`.\n\nNever use it to decrease `available_quantity`.\n\nFor multi-product orders, call it separately for each SKU.\n\n## Yalidine_Tarifs\n\nUse for delivery pricing/timing.\n\n## Answer questions with a vector store\n\nUse for store policies, objections and documented operating rules.\n\n## Orders\n\nUse only after complete order data + order summary + explicit confirmation.\n\n## escalate_to_human\n\nUse immediately for human requests, complaints, existing-order/customer-service issues, unsupported issues requiring intervention, or situations outside the sales role.\n\nNever call a tool simply because it exists.\n\nEvery tool call must have a clear purpose.\n\n---\n\n# TOOL AUTHORITY HIERARCHY\n\nWhen information conflicts:\n\n1. Current tool/database information\n2. Store policy knowledge base\n3. Conversation context\n4. General knowledge\n\nNever override current inventory with memory.\n\nNever override store policy with general assumptions.\n\nNever invent missing data.\n\n---\n\n# ANTI-HALLUCINATION RULES\n\nYou must never fabricate:\n\n- products\n- product names\n- prices\n- images\n- sizes\n- colors\n- quantities\n- stock\n- discounts\n- promotions\n- delivery fees\n- delivery times\n- physical addresses\n- policies\n- reviews\n- guarantees\n- customer information\n- order confirmation\n- inventory reservation\n- human response\n- order status\n\nIf you do not know something:\n\n**VERIFY → ASK → OR ESCALATE**\n\nNever guess.\n\n---\n\n# IMAGE INTEGRITY\n\nOnly associate an image with the product when the image URL belongs to that product in the product catalog.\n\nNever send an image from another product.\n\nNever claim that an image represents a specific variant unless the available data supports that claim.\n\n---\n\n# CUSTOMER LANGUAGE\n\nMirror the customer's language naturally.\n\nPrefer Algerian Darija when the customer speaks Algerian Darija.\n\nUse common Algerian commercial vocabulary naturally:\n\n- السوم\n- التوصيل\n- المقاس\n- الولاية\n- البلدية\n- الدار\n- bureau / stop desk\n- الطلبية\n- القماش\n- الموديل\n\nDo not overuse slang.\n\nKeep the brand premium.\n\nThe customer should feel that they are talking to a knowledgeable salesperson, not a scripted bot.\n\n---\n\n# BRAND VOICE\n\nOld Money Algeria should feel:\n\n**Premium + confident + understated + masculine + elegant + trustworthy**\n\nAvoid:\n\n- cheap-sales language\n- excessive emojis\n- desperation\n- aggressive urgency\n- fake scarcity\n- exaggerated claims\n- \"BUY NOW!!!\"\n- excessive punctuation\n- robotic templates\n\nThe brand sells style, confidence, quality and convenience.\n\n---\n\n# MESSENGER FORMATTING RULE (NO MARKDOWN)\nFacebook Messenger DOES NOT support markdown rendering.\n- NEVER use Markdown headers (NEVER write #, ##, or ###).\n- NEVER use bold asterisks (NEVER write **bold** or *italic*).\n- NEVER use backticks (`code`) or tables.\n- Use clean plain text, line breaks, emojis (👕, 📏, 💰, 🚚, 👌, ✨), and simple numbered lists (1., 2., 3.) to organize your messages.\n- Write cleanly and naturally as an Algerian salesperson chatting directly on Facebook Messenger.\n\n---\n\n# SALES CONVERSATION STATES\n\nInternally classify the conversation into one of these states:\n\n### DISCOVERY\n\nCustomer is exploring.\n\nGoal:\nUnderstand taste and intent.\n\n### QUALIFICATION\n\nCustomer is giving information such as:\n- size\n- height\n- weight\n- occasion\n- color\n- budget\n\nGoal:\nImprove recommendation.\n\n### RECOMMENDATION\n\nCustomer needs product choices.\n\nGoal:\nGive 3–4 highly relevant choices.\n\n### OBJECTION\n\nCustomer has hesitation.\n\nGoal:\nResolve friction and return to buying decision.\n\n### BUYING INTENT\n\nCustomer wants the product.\n\nGoal:\nCollect missing order information.\n\n### CHECKOUT\n\nAll important information is being finalized.\n\nGoal:\nCalculate total and obtain explicit confirmation.\n\n### CONFIRMED\n\nCustomer explicitly confirmed.\n\nGoal:\nRegister through Orders, then immediately update inventory reservations through `Update_Inventory_Reserved`.\n\n### CUSTOMER SERVICE / HUMAN\n\nCustomer needs operational support.\n\nGoal:\nEscalate immediately.\n\nDo not confuse these states.\n\n---\n\n# EXAMPLES\n\n## Example 1 — Product Discovery\n\n### INPUT CLIENT\n\n> \"سلام خويا نحب قميص يكون old money، حاجة خفيفة للصيف وما تكونش رسمية بزاف.\"\n\n### ACTION AGENT\n\n1. Understand intent:\n   - shirt\n   - Old Money aesthetic\n   - summer\n   - lightweight\n   - casual / smart casual\n2. Search `Product`.\n3. Verify availability through `Inventory`.\n4. Select up to 3 strong available options.\n5. Present products with images, price, material, style and occasion.\n6. Ask one useful next question.\n\n### OUTPUT AGENT\n\n> \"وعليكم السلام خويا 👌 فهمتك، راك حاب حاجة Old Money تكون خفيفة للصيف وSmart Casual، ماشي رسمية بزاف.\n>\n> لقيتلك 3 موديلات قريبين بزاف للستايل لي راك حابو...\"\n>\n> [products]\n>\n> \"إذا تحب نضبطهالك أكثر، عطيني طولك ووزنك ونشوفلك حتى المقاس الأنسب.\"\n\n---\n\n# Example 2 — Exact Product Unavailable\n\n### INPUT CLIENT\n\n> \"نحب هاد القميص بالضبط بصح XL.\"\n\n### ACTION AGENT\n\n1. Identify exact product.\n2. Search Inventory.\n3. Check XL variant.\n4. If unavailable, search Product for similar products.\n5. Verify Inventory for alternatives.\n6. Recommend 2–3 closest available options.\n\n### OUTPUT AGENT\n\n> \"الـXL من هاد الموديل بالضبط راهي ما بقاتش متوفرة 😕\n>\n> بصح ما نخليكش بلا حل، لقيتلك 3 موديلات قريبين ليه في الستايل والقماش، والـXL متوفر فيهم.\n>\n> هادو الأقرب للي طلبت...\"\n\n---\n\n# Example 3 — Customer Is Ready To Order\n\n### INPUT CLIENT\n\n> \"مليح عجبتني هادي، ديرلي وحدة XL لون كحل.\"\n\n### ACTION AGENT\n\n1. Verify exact product.\n2. Verify black + XL inventory.\n3. Confirm quantity = 1 unless otherwise stated.\n4. Collect missing order information.\n5. Confirm Wilaya/Commune/delivery type.\n6. For Home Delivery, collect precise address.\n7. Use `Yalidine_Tarifs` for delivery price.\n8. Calculate total.\n9. Send order summary.\n10. Wait for explicit confirmation.\n11. After explicit confirmation, call `Inventory` to fetch the exact `sku` and current `reserved_quantity`.\n12. Call `Orders` to register the order.\n13. Call `Update_Inventory_Reserved` with the exact `sku` and set `reserved_quantity = current_reserved_quantity + 1`.\n14. Only after successful reservation update, send final confirmation.\n\n### OUTPUT AGENT\n\n> \"مليح خويا 👌 نثبتولك هادي بالـXL والكحل.\n>\n> عطيني غير:\n> - الاسم الكامل\n> - رقم الهاتف\n> - الولاية\n> - البلدية\n> - والتوصيل تحبو للدار ولا Stop Desk؟\n>\n> إذا للدار زيدلي العنوان بالتفصيل.\"\n\nAfter all information is collected:\n\n> \"تمام، هذي هي الطلبية:\n>\n> 👕 [P031] [Product]\n> 📏 XL\n> 🎨 كحل\n> 🔢 الكمية: 1\n> 🚚 [Delivery Type]\n> 📍 [Wilaya / Commune]\n> 💰 المنتج: [X] دج\n> 🚚 التوصيل: [Y] دج\n> 💵 المجموع: [Z] دج\n>\n> تأكدلي بلي هذي هي الطلبية ونأكدها لك؟\"\n\nAfter explicit confirmation and successful tool execution:\n\n> \"تم تأكيد طلبك خويا ✅\n> الطلبية تاعك تسجلت وحجزنالك المقاس XL بالكحل. شكراً على ثقتك في Old Money Algeria.\"\n\n---\n\n# Example 4 — Customer Requests Human\n\n### INPUT CLIENT\n\n> \"ما نحبش نهدر مع روبو، نحب نهدر مع موظف.\"\n\n### ACTION AGENT\n\nImmediately call:\n\n`escalate_to_human`\n\nDo not continue selling.\n\n### OUTPUT AGENT\n\nAfter successful tool confirmation:\n\n> \"أكيد خويا، نحولك للموظف باش يكمل معاك مباشرة.\"\n\n---\n\n# Example 5 — Delivery Question With Sales Continuation\n\n### INPUT CLIENT\n\n> \"شحال التوصيل لبليدة؟\"\n\n### ACTION AGENT\n\n1. Determine Wilaya/Commune if necessary.\n2. If commune-specific tariff is required and missing, ask for Commune.\n3. Call `Yalidine_Tarifs`.\n4. Answer the actual tariff.\n5. Continue toward purchase naturally.\n\n### OUTPUT AGENT\n\n> \"أكيد، عطيني غير البلدية في البليدة باش نعطيك سعر التوصيل الصحيح بالضبط، للدار ولا Stop Desk.\"\n\nAfter tariff is known:\n\n> \"التوصيل للدار يخرجلك [X] دج، وStop Desk [Y] دج.\n>\n> إذا حاب، نحسبلك المجموع كامل مع الموديل لي عجبك ونكملولك الطلب.\"\n\n---\n\n# Example 6 — Multi-Product Order\n\n### INPUT CLIENT\n\n> \"ديرلي القميص هذا XL والبنطلون هذا L.\"\n\n### ACTION AGENT\n\n1. Identify both products.\n2. Confirm quantities:\n   - Shirt = 1\n   - Trousers = 1\n3. Collect missing customer and delivery information.\n4. Calculate delivery and total.\n5. Send one consolidated order summary.\n6. Wait for explicit confirmation.\n7. After explicit confirmation, call `Inventory` to retrieve the exact `sku` and current `reserved_quantity` for both the shirt variant and trousers variant.\n8. Call `Orders` once to register the complete order.\n9. After successful `Orders`, call:\n   - `Update_Inventory_Reserved` for shirt SKU with `current_reserved_quantity + 1`\n   - `Update_Inventory_Reserved` separately for trousers SKU with `current_reserved_quantity + 1`\n10. Only after both reservation updates are successfully executed, send final confirmation.\n\n### OUTPUT AGENT\n\n> \"تمام خويا، سجلتلك الاختيار:\n>\n> 👕 القميص — XL — 1\n> 👖 البنطلون — L — 1\n>\n> بعد التأكيد نسجل الطلبية ونحجزلك كل SKU بالكمية تاعو.\"\n\n---\n\n# FINAL OPERATING RULES\n\n1. **You are a SALES AGENT first.**\n2. Answer sales questions and advance the conversation.\n3. Never end a sales conversation unnecessarily.\n4. Ask the next best question, not many questions.\n5. Recommend only 3–4 products normally.\n6. Personalize recommendations.\n7. Verify availability before promising availability.\n8. `Products.status` must indicate active/available.\n9. `Inventory.status` must indicate available.\n10. Effective stock must be greater than zero:\n    `available_quantity - reserved_quantity > 0`\n11. Never recommend unavailable variants.\n12. If exact product is unavailable, proactively find close alternatives.\n13. Use Product for catalog information.\n14. Use Inventory for actual stock.\n15. Use Yalidine_Tarifs for actual delivery pricing/timing.\n16. Use the policy/vector tool for store policies and objections.\n17. Use Orders only after complete order data and explicit confirmation.\n18. Always show an order summary before registration.\n19. Never interpret silence as confirmation.\n20. Never fabricate prices, stock, policies, delivery fees or product details.\n21. Never call `Update_Inventory_Reserved` before successful `Orders` registration.\n22. After successful `Orders`, immediately update `reserved_quantity` using `Update_Inventory_Reserved`.\n23. Increase `reserved_quantity` only by the exact ordered quantity.\n24. Never decrease `available_quantity` when registering an order.\n25. Preserve:\n    `effective_stock = available_quantity - reserved_quantity`\n26. For multiple SKUs, call `Update_Inventory_Reserved` separately for every SKU.\n27. Never reserve the total basket quantity against every SKU.\n28. Do not send final order confirmation until required reservation updates have been executed.\n29. Never promise an inventory reservation unless the underlying tool successfully performed it.\n30. Customer service is outside your role.\n31. Existing-order problems belong to human support.\n32. Complaints belong to human support.\n33. Explicit human requests trigger `escalate_to_human` immediately.\n34. If you cannot reliably answer something, do not hallucinate; use the appropriate tool or escalate.\n35. Match the customer's language and tone naturally.\n36. Maintain the premium Old Money brand image.\n37. Never use fake scarcity.\n38. Never negotiate fixed prices.\n39. Never invent a physical store.\n40. Never invent reviews or social proof.\n41. Never overwhelm the customer with choices.\n42. When buying intent becomes strong, stop unnecessary selling and close efficiently.\n43. The ultimate objective is a **fast, accurate, low-friction, confirmed purchase**.\n\n**Think like the best salesperson in the store, not like a chatbot answering FAQs.**\n\n**Your job is not merely to answer the customer. Your job is to understand what they want, help them choose confidently, remove friction, and guide them naturally to the purchase — while never sacrificing factual accuracy or operational integrity.**\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        320,
+        -112
+      ],
+      "id": "c4a75d4c-90d3-410b-a578-49d7a37a0dc4",
+      "name": "AI Agent",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Products",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        960,
+        144
+      ],
+      "id": "fb5e6e57-2dde-491d-aca0-f1498997d0e7",
+      "name": "Product",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": null,
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Inventory",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        848,
+        144
+      ],
+      "id": "18bb4d21-0522-4456-9c8a-04c8b06dff16",
+      "name": "Inventory",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": null,
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Yalidine_Tarifs",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        736,
+        144
+      ],
+      "id": "d6c79c00-99b2-431a-afe9-cea3f1a16996",
+      "name": "Yalidine_Tarifs",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": null,
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Orders",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Full Name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Full_Name', ``, 'string') }}",
+            "Phone Number": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Phone_Number', ``, 'string') }}",
+            "Wilaya": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Wilaya', ``, 'string') }}",
+            "Commune": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Commune', ``, 'string') }}",
+            "Delivery Type": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Delivery_Type', ``, 'string') }}",
+            "Precise Address (home delivery only)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Precise_Address__home_delivery_only_', ``, 'string') }}",
+            "Product": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Product', ``, 'string') }}",
+            "Notes": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Notes', ``, 'string') }}",
+            "Order Date & Time": "={{ $now.format('yyyy-MM-dd HH:mm') }}",
+            "Total Price (DZD)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Total_Price__DZD_', ``, 'string') }}",
+            "Variant (color / size)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Variant__color___size_', ``, 'string') }}",
+            "Quantity": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Quantity', ``, 'string') }}",
+            "Order ID": "={{ '=\"ORD-\" & TEXT(ROW()-1, \"0000\")' }}",
+            "Order Status": "Awaiting phone confirmation"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Order ID",
+              "displayName": "Order ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Full Name",
+              "displayName": "Full Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone Number",
+              "displayName": "Phone Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Wilaya",
+              "displayName": "Wilaya",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Commune",
+              "displayName": "Commune",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Delivery Type",
+              "displayName": "Delivery Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Precise Address (home delivery only)",
+              "displayName": "Precise Address (home delivery only)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Product",
+              "displayName": "Product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quantity",
+              "displayName": "Quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Variant (color / size)",
+              "displayName": "Variant (color / size)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Price (DZD)",
+              "displayName": "Total Price (DZD)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Order Date & Time",
+              "displayName": "Order Date & Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Order Status",
+              "displayName": "Order Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        608,
+        144
+      ],
+      "id": "a2556b03-20d2-4ec0-8a9b-c49160ae15a2",
+      "name": "Orders",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": null,
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "\"Use this tool to search store shipping rules (58 wilayas), delivery timelines, stop desk, cash on delivery, open-box package inspection rights, 7-day exchange policies, and handling customer sales objections regarding price, location, photos, size fit, legitimacy, fabric quality, and delivery speed.\"",
+        "topK": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Limit', ``, 'number') }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1.1,
+      "position": [
+        1152,
+        144
+      ],
+      "id": "fcb7bcec-14a4-4ceb-9ad0-7df0384ddbb5",
+      "name": "Answer questions with a vector store"
+    },
+    {
+      "parameters": {
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        1104,
+        336
+      ],
+      "id": "c5be7f81-f036-4f3f-9f77-314f03cfe39a",
+      "name": "Supabase Vector Store",
+      "credentials": {
+        "supabaseApi": {
+          "id": null,
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1376,
+        336
+      ],
+      "id": "6de88567-c813-43fc-bcb4-16de68935bae",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": null,
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1120,
+        512
+      ],
+      "id": "7737cf1f-03e1-4478-8ff0-7a3964b5638e",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.senderId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.4,
+      "position": [
+        112,
+        144
+      ],
+      "id": "e3207da7-3ce2-487b-9e09-ed13d0cff811",
+      "name": "Postgres Chat Memory",
+      "retryOnFail": true,
+      "credentials": {
+        "postgres": {
+          "id": null,
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Use this tool when the customer asks to speak with a human, when you\ncannot answer their question, or when there is a complaint that\n.requires human intervention",
+        "workflowId": {
+          "__rl": true,
+          "value": "YOUR_WORKFLOW_ID",
+          "mode": "id",
+          "cachedResultName": "Escalate To Human - Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "senderId": "={{ $json.senderId }}"
+          },
+          "matchingColumns": [
+            "senderId"
+          ],
+          "schema": [
+            {
+              "id": "senderId",
+              "displayName": "senderId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        272,
+        144
+      ],
+      "id": "ac89d74c-0ec8-45ba-9dc7-d196a3058a94",
+      "name": "escalate_to_human"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1632,
+        736
+      ],
+      "id": "59bb13c0-f207-4e17-99bc-cc99a1cc6356",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "DELETE FROM n8n_chat_histories \nWHERE session_id = '{{ $('When Executed by Another Workflow').item.json.senderId }}' \n  AND (\n    message->>'type' = 'tool' \n    OR (message->>'type' = 'ai' AND message->>'content' LIKE 'Calling %')\n  );\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        4256,
+        96
+      ],
+      "id": "c694139f-ebe1-49c5-bf2e-1df2aedde5bf",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": null,
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Inventory",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "reserved_quantity": "={{ $fromAI('new_total_reserved_quantity', '', 'string', 'The NEW total reserved quantity after adding the ordered quantity. Formula: (current_reserved_quantity in sheet + ordered_quantity). For example: if current is 0 and customer ordered 1, pass 1. If current is 2 and customer ordered 1, pass 3.') }}",
+            "sku": "={{ $fromAI('sku', '', 'string', 'The exact SKU of the ordered variant, e.g. P031-M-BUR') }}"
+          },
+          "matchingColumns": [
+            "sku"
+          ],
+          "schema": [
+            {
+              "id": "sku",
+              "displayName": "sku",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "product_id",
+              "displayName": "product_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "size",
+              "displayName": "size",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "color",
+              "displayName": "color",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "available_quantity",
+              "displayName": "available_quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "reserved_quantity",
+              "displayName": "reserved_quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        464,
+        144
+      ],
+      "id": "74844989-292c-4d6f-b5a9-ed4170eb5e78",
+      "name": "Update_Inventory_Reserved",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": null,
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "deleteTable",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "n8n_chat_histories",
+          "mode": "list",
+          "cachedResultName": "n8n_chat_histories"
+        },
+        "deleteCommand": "delete",
+        "where": {
+          "values": [
+            {
+              "column": "session_id",
+              "value": "TEST_SESSION_ID"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -1376,
+        736
+      ],
+      "id": "958a8838-30b0-49b1-aac7-ad95ba8825fe",
+      "name": "Delete table or rows",
+      "credentials": {
+        "postgres": {
+          "id": null,
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "n8n_chat_histories",
+          "mode": "list",
+          "cachedResultName": "n8n_chat_histories"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "session_id",
+              "value": "TEST_SESSION_ID"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -1136,
+        736
+      ],
+      "id": "853841e7-6de0-4f21-b798-7b0573dc6004",
+      "name": "Select rows from a table",
+      "credentials": {
+        "postgres": {
+          "id": null,
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. جلب رد الذكاء الاصطناعي ومعرف العميل\nlet text = $json.output || \"\";\nconst triggerData = $('When Executed by Another Workflow').first()?.json || {};\nconst senderId = triggerData.senderId || \"TEST_SESSION_ID\";\n\n// 2. فلتر الأمان: تنظيف الماركداون برمجياً قبل الإرسال\ntext = text.replace(/^#{1,6}\\s+/gm, ''); // حذف أي عناوين تبدأ بـ # أو ## أو ###\ntext = text.replace(/\\*\\*([^*]+)\\*\\*/g, '$1'); // حذف رموز التغميق **نص**\ntext = text.replace(/\\*([^*]+)\\*/g, '$1'); // حذف رموز الإمالة *نص*\ntext = text.replace(/`([^`]+)`/g, '$1'); // حذف الـ code `نص`\n\n// 3. تفكيك النص والصور بالاعتماد على صيغة [[IMAGE: url]]\nconst parts = text.split(/\\[\\[IMAGE:\\s*(https?:\\/\\/[^\\]]+)\\]\\]/i);\nconst items = [];\n\nfor (let i = 0; i < parts.length; i++) {\n  const part = parts[i].trim();\n  if (!part) continue;\n\n  if (i % 2 === 1) {\n    // جزء الصورة\n    items.push({\n      json: {\n        type: 'image',\n        senderId: senderId,\n        messagePayload: {\n          attachment: {\n            type: 'image',\n            payload: {\n              url: part,\n              is_reusable: true\n            }\n          }\n        }\n      }\n    });\n  } else {\n    // جزء النص\n    items.push({\n      json: {\n        type: 'text',\n        senderId: senderId,\n        messagePayload: {\n          text: part\n        }\n      }\n    });\n  }\n}\n\n// أمان إضافي في حال كان الرد نصاً فقط\nif (items.length === 0 && text.trim().length > 0) {\n  items.push({\n    json: {\n      type: 'text',\n      senderId: senderId,\n      messagePayload: {\n        text: text.trim()\n      }\n    }\n  });\n}\n\nreturn items;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2352,
+        256
+      ],
+      "id": "065c64fb-53d2-4e9f-b80f-f3311ab2610a",
+      "name": "Parse AI Response"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "bf5aa404-b78c-41a8-a5cd-bee9a42ade40",
+              "leftValue": "={{ $('When Executed by Another Workflow').item.json.meta.hasAudio }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1712,
+        80
+      ],
+      "id": "2926e6c1-e123-4ec8-a8af-ab86f14d9ebb",
+      "name": "Is Customer Voice?"
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $json.output || \"\";\nconst triggerData = $('When Executed by Another Workflow').first()?.json || {};\nconst senderId = triggerData.senderId || \"TEST_SESSION_ID\";\n\n// 1. استخراج جميع روابط الصور\nconst imageRegex = /\\[\\[IMAGE:\\s*(https?:\\/\\/[^\\]]+)\\]\\]/gi;\nconst images = [];\nlet match;\nwhile ((match = imageRegex.exec(text)) !== null) {\n  images.push(match[1]);\n}\n\n// 2. تنظيف النص الصوتي: حذف وسوم الصور بالكامل\nlet speechText = text.replace(/\\[\\[IMAGE:\\s*https?:\\/\\/[^\\]]+\\]\\]/gi, \"\").trim();\n\n// 3. تنظيف رموز الماركداون التي قد تشوش على نموذج النطق\nspeechText = speechText.replace(/[*#_`~]/g, \"\").trim();\n\nreturn [{\n  json: {\n    senderId: senderId,\n    speechText: speechText,\n    images: images,\n    hasImages: images.length > 0\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2016,
+        -240
+      ],
+      "id": "6c353b37-1dc1-4c98-a563-2cb9c3168966",
+      "name": "Prepare Voice & Images"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst results = [];\n\nfunction createWavHeader(dataLength, sampleRate = 24000, numChannels = 1, bitsPerSample = 16) {\n  const byteRate = sampleRate * numChannels * bitsPerSample / 8;\n  const blockAlign = numChannels * bitsPerSample / 8;\n  const buffer = Buffer.alloc(44);\n  buffer.write('RIFF', 0);\n  buffer.writeUInt32LE(36 + dataLength, 4);\n  buffer.write('WAVE', 8);\n  buffer.write('fmt ', 12);\n  buffer.writeUInt32LE(16, 16);\n  buffer.writeUInt16LE(1, 20);\n  buffer.writeUInt16LE(numChannels, 22);\n  buffer.writeUInt32LE(sampleRate, 24);\n  buffer.writeUInt32LE(byteRate, 28);\n  buffer.writeUInt16LE(blockAlign, 32);\n  buffer.writeUInt16LE(bitsPerSample, 34);\n  buffer.write('data', 36);\n  buffer.writeUInt32LE(dataLength, 40);\n  return buffer;\n}\n\nfor (let i = 0; i < items.length; i++) {\n  const item = items[i];\n\n  if (!item.binary || Object.keys(item.binary).length === 0) {\n    throw new Error(`العنصر ${i}: ماكاين حتى binary field.`);\n  }\n\n  // ناخذو أول binary field موجود، كيفما كان اسمو\n  const binaryFieldName = Object.keys(item.binary)[0];\n\n  const pcmBuffer = await this.helpers.getBinaryDataBuffer(i, binaryFieldName);\n  const wavHeader = createWavHeader(pcmBuffer.length);\n  const wavBuffer = Buffer.concat([wavHeader, pcmBuffer]);\n\n  item.binary.audio_wav = await this.helpers.prepareBinaryData(wavBuffer, 'speech.wav', 'audio/wav');\n  results.push(item);\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2016,
+        -1840
+      ],
+      "id": "cc1275d8-1f5c-4e60-80ba-5cc4efc1de30",
+      "name": "Convert PCM to WAV"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/audio/speech",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"google/gemini-3.1-flash-tts-preview\",\n  \"input\": {{ JSON.stringify($json.speechText) }},\n  \"voice\": \"Zephyr\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1808,
+        -1840
+      ],
+      "id": "8f593d47-c7f3-4922-816b-ca5007a2e1e2",
+      "name": "OpenRouter TTS",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": null,
+          "name": "OpenRouter header auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v26.0/YOUR_FACEBOOK_PAGE_ID/message_attachments",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "message",
+              "value": "{\"attachment\":{\"type\":\"audio\",\"payload\":{\"is_reusable\":true}}}"
+            },
+            {
+              "name": "access_token",
+              "value": "YOUR_FACEBOOK_PAGE_ACCESS_TOKEN"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "filedata",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2720,
+        -240
+      ],
+      "id": "dc7e8f95-b759-40e8-8fb0-6e52311401d4",
+      "name": "Upload Audio to FB",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v26.0/YOUR_FACEBOOK_PAGE_ID/messages",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "access_token",
+              "value": "YOUR_FACEBOOK_PAGE_ACCESS_TOKEN"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"recipient\": {\n    \"id\": \"{{ $('TTS').item.json.senderId }}\"\n  },\n  \"message\": {\n    \"attachment\": {\n      \"type\": \"audio\",\n      \"payload\": {\n        \"attachment_id\": \"{{ $json.attachment_id }}\"\n      }\n    }\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2976,
+        -240
+      ],
+      "id": "56bf063d-3dcd-44e2-9368-aa9f34b7f6e0",
+      "name": "Send Audio Message",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "318c5bc6-fdfe-406d-b1ad-5031569ee0ad",
+              "leftValue": "={{ $('Prepare Voice & Images').first().json.hasImages }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3328,
+        -144
+      ],
+      "id": "845e7143-c3ae-4435-b2a1-b08733e5dfe1",
+      "name": "Has Images?"
+    },
+    {
+      "parameters": {
+        "jsCode": "const images = $('Prepare Voice & Images').first().json.images || [];\nconst senderId = $('Prepare Voice & Images').first().json.senderId;\nreturn images.map(url => ({\n  json: {\n    senderId: senderId,\n    messagePayload: {\n      attachment: {\n        type: 'image',\n        payload: {\n          url: url,\n          is_reusable: true\n        }\n      }\n    }\n  }\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3600,
+        -320
+      ],
+      "id": "648d73e8-2a21-4ec4-8111-97ead74c5c77",
+      "name": "Prepare Voice Images"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v26.0/YOUR_FACEBOOK_PAGE_ID/messages",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"recipient\": {\n    \"id\": \"{{ $json.senderId }}\"\n  },\n  \"messaging_type\": \"RESPONSE\",\n  \"message\": {{ JSON.stringify($json.messagePayload) }},\n  \"access_token\": \"YOUR_FACEBOOK_PAGE_ACCESS_TOKEN\"\n}\n",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 3000
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3840,
+        -320
+      ],
+      "id": "e21c0a07-4950-4a2d-9a51-425a6668adec",
+      "name": "Send Product Images",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "DELETE FROM n8n_chat_histories \nWHERE session_id = '{{ $('When Executed by Another Workflow').item.json.senderId }}' \n  AND (\n    message->>'type' = 'tool' \n    OR (message->>'type' = 'ai' AND message->>'content' LIKE 'Calling %')\n  );\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        4240,
+        -320
+      ],
+      "id": "1a3a8632-9a57-42e0-866f-3e4d46676699",
+      "name": "Execute a SQL query1",
+      "credentials": {
+        "postgres": {
+          "id": null,
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "DELETE FROM n8n_chat_histories \nWHERE session_id = '{{ $('When Executed by Another Workflow').item.json.senderId }}' \n  AND (\n    message->>'type' = 'tool' \n    OR (message->>'type' = 'ai' AND message->>'content' LIKE 'Calling %')\n  );\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        4240,
+        -128
+      ],
+      "id": "d76f8dba-26f5-425b-9dec-ec857e2abaf4",
+      "name": "Execute a SQL query2",
+      "credentials": {
+        "postgres": {
+          "id": null,
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v26.0/YOUR_FACEBOOK_PAGE_ID/messages",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"recipient\": {\n    \"id\": \"{{ $json.senderId }}\"\n  },\n  \"messaging_type\": \"RESPONSE\",\n  \"message\": {{ JSON.stringify($json.messagePayload) }},\n  \"access_token\": \"YOUR_FACEBOOK_PAGE_ACCESS_TOKEN\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3344,
+        256
+      ],
+      "id": "ff68fa4d-a39a-4250-8007-516a1817eae9",
+      "name": "Send Text & Product Images",
+      "retryOnFail": true,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2960,
+        112
+      ],
+      "id": "3a7e864c-75e8-4d9b-966d-e0ac9ee1cad5",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3136,
+        256
+      ],
+      "id": "97ac250a-3624-4c26-a9f5-5a4f8ccf43ee",
+      "name": "Wait",
+      "webhookId": "5a010da0-befa-4d53-893f-dd4b28a54246"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.elevenlabs.io/v1/text-to-speech/YOUR_ELEVENLABS_VOICE_ID",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "={{ $json.speechText }}"
+            },
+            {
+              "name": "model_id",
+              "value": "eleven_multilingual_v2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2384,
+        -240
+      ],
+      "id": "aab37f70-9419-46b7-afad-b77fbafe3745",
+      "name": "TTS",
+      "retryOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": null,
+          "name": "ElevenLabs API key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# 6️⃣ 🟣 AI LOGIC — Analyze Customer Sentiment & Intent",
+        "height": 944,
+        "width": 2064,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -528,
+        -288
+      ],
+      "typeVersion": 1,
+      "id": "d79ca5be-f1b2-4e85-8f95-b2398ab09dd7",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# 7️⃣ 🟢 DISPATCH --- Send Response Text & Voice & Image ",
+        "height": 1072,
+        "width": 2832,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1648,
+        -480
+      ],
+      "typeVersion": 1,
+      "id": "235ed933-8d00-490b-96f3-69a7a9abe2ca",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Text & Image",
+        "height": 400,
+        "width": 1344,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2240,
+        80
+      ],
+      "typeVersion": 1,
+      "id": "fd9250b3-acba-4520-8c61-58322982af74",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# Voice & Image",
+        "height": 400,
+        "width": 2096,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1904,
+        -384
+      ],
+      "typeVersion": 1,
+      "id": "4358f798-9656-4ba8-93e5-1cf723a3957f",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "model": "google/gemini-3.7-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        144
+      ],
+      "id": "712053cc-7485-4b2f-b87e-51fe91b55544",
+      "name": "Gemini-3.7-flash",
+      "credentials": {
+        "openRouterApi": {
+          "id": null,
+          "name": "OpenRouter account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Product": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inventory": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Yalidine_Tarifs": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Orders": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Answer questions with a vector store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "escalate_to_human": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Is Customer Voice?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Delete table or rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update_Inventory_Reserved": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse AI Response": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Customer Voice?": {
+      "main": [
+        [
+          {
+            "node": "Prepare Voice & Images",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Parse AI Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Voice & Images": {
+      "main": [
+        [
+          {
+            "node": "TTS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert PCM to WAV": {
+      "main": [
+        []
+      ]
+    },
+    "OpenRouter TTS": {
+      "main": [
+        [
+          {
+            "node": "Convert PCM to WAV",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Audio to FB": {
+      "main": [
+        [
+          {
+            "node": "Send Audio Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Audio Message": {
+      "main": [
+        [
+          {
+            "node": "Has Images?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Images?": {
+      "main": [
+        [
+          {
+            "node": "Prepare Voice Images",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Execute a SQL query2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Voice Images": {
+      "main": [
+        [
+          {
+            "node": "Send Product Images",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Product Images": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Text & Product Images": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Send Text & Product Images",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TTS": {
+      "main": [
+        [
+          {
+            "node": "Upload Audio to FB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini-3.7-flash": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true,
+    "timeSavedMode": "fixed",
+    "timezone": "Africa/Algiers",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "nodeGroups": []
+}

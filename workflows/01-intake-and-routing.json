@@ -1,0 +1,2199 @@
+{
+  "name": "Ai Sales Agent For Social Commerce Part 1",
+  "nodes": [
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query.hub_challenge }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -416,
+        -304
+      ],
+      "id": "a23905cf-22d4-4551-a737-28a997886500",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "11de6609-c2ab-43e0-acac-bf8345c28e1e",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "audio",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b6cbaadc-48cc-493f-8fa3-7bd3185c72ca",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Image"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "073b00b5-d8db-4643-9c39-2fe86dcf6356",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "video",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Video"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "0512b7fd-8539-4bcb-85af-839bc829bb82",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "^(post|fallback)$",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Post"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "1d1d2025-4d81-4beb-a4d6-176e0435ee47",
+                    "leftValue": "={{ $json.type}}",
+                    "rightValue": "reel",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Reel"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3104,
+        368
+      ],
+      "id": "ac63f598-a50c-4620-bbc3-53f046cd5464",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "79663f8e-5f1a-4c57-88ee-a42bb190a20e",
+              "name": "Text",
+              "value": "={{ $json.body.entry[0].messaging[0].message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3920,
+        -560
+      ],
+      "id": "12271936-0b36-4f1e-bcd8-cd0155b2fede",
+      "name": "Text"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"google/gemini-3.7-flash\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": [\n        { \"type\": \"text\",\n          \"text\": \"Act as an expert video analyst specializing in 'Old Money' aesthetic apparel. Provide highly detailed descriptions of the clothing items shown in the video—including fit, fabric texture, dynamic movement, fine details, features, colors, branding, and key distinguishing attributes. Ensure your description gives the downstream AI system all necessary context to accurately match the product against its inventory catalog and recommend it to customers.\" },\n        {\n          \"type\": \"video_url\",\n          \"video_url\": { \"url\": \"{{ $json.payload.ur }}\" }\n        }\n      ]\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3952,
+        416
+      ],
+      "id": "20f0af3a-6d42-42c5-a2c6-a18701423208",
+      "name": "Analyze video",
+      "retryOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": null,
+          "name": "OpenRouter header auth"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "body.entry[0].messaging[0].message.attachments",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2880,
+        416
+      ],
+      "id": "2617cc79-876c-40bd-8a59-99fc0995bfb3",
+      "name": "Split Out",
+      "retryOnFail": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "46003b4a-7abf-4e36-be45-95226d624d8d",
+              "name": "senderId",
+              "value": "={{ $json.body.entry[0].messaging[0].sender.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        -32
+      ],
+      "id": "c253bc53-906b-41b7-b0cd-91d6ca9235a6",
+      "name": "Extract Sender ID"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "=buffer:{{ $('Extract Sender ID').item.json.senderId }}",
+        "keyType": "string",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        752,
+        -32
+      ],
+      "id": "9df29a12-fa96-4b2c-9479-d5f1c83467c2",
+      "name": "Redis Get Buffer",
+      "retryOnFail": true,
+      "credentials": {
+        "redis": {
+          "id": null,
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. جلب البيانات القديمة من Redis (إن وجدت)\nconst redisData = $input.first().json;\nconst raw = redisData.propertyName || redisData.value;\nconst existing = raw ? JSON.parse(raw) : [];\n\n// 2. جلب بيانات الرسالة الحالية و الـ Sender ID\nconst senderNode = $('Extract Sender ID').item.json;\nconst senderId = senderNode.senderId;\nconst messaging = senderNode.body.entry[0].messaging[0];\n\n// 3. إضافة الرسالة الجديدة للقائمة\nexisting.push(messaging);\n\n// 4. إرجاع النتيجة\nreturn [{\n  json: {\n    senderId: senderId,\n    updatedBuffer: JSON.stringify(existing)\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        928,
+        -32
+      ],
+      "id": "7d68e3d0-81ac-4c56-a859-54f4abc94d02",
+      "name": "Prepare Buffer",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "=buffer:{{ $json.senderId }}",
+        "value": "={{ $json.updatedBuffer }}",
+        "expire": true,
+        "ttl": 120
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        -32
+      ],
+      "id": "5ed34e98-6437-4d09-af42-adc454f96f14",
+      "name": "Redis Set Buffer",
+      "credentials": {
+        "redis": {
+          "id": null,
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "incr",
+        "key": "=lock:{{ $json.senderId }}",
+        "expire": true,
+        "ttl": 90
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        -32
+      ],
+      "id": "81e0214c-f180-42c2-bf87-40c12720dd72",
+      "name": "Acquire Lock",
+      "credentials": {
+        "redis": {
+          "id": null,
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "04934ca8-b815-4ec8-9754-0201bc77c78b",
+              "leftValue": "={{ Object.values($json)[0] }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1488,
+        -32
+      ],
+      "id": "eb1f5ac4-f382-49b7-924c-a688f8981f0c",
+      "name": "Is Leader?"
+    },
+    {
+      "parameters": {
+        "amount": 20
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1664,
+        -288
+      ],
+      "id": "c35d713e-5c06-45c6-8393-517a45a5f3aa",
+      "name": "Wait For Batch",
+      "webhookId": "6a315d11-3a2c-4984-9a95-b4b92a2d22f1"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "=buffer:{{ $('Extract Sender ID').item.json.senderId }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1872,
+        -288
+      ],
+      "id": "e4ff0b9a-4a29-4d03-b8fc-d5afba519f38",
+      "name": "Get Final Buffer",
+      "retryOnFail": true,
+      "credentials": {
+        "redis": {
+          "id": null,
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. جلب النص المجمع من Redis\nconst rawData = $('Get Final Buffer').first().json.propertyName || $('Get Final Buffer').first().json.value;\n\n// 2. تحويله إلى قائمة رسائل\nconst messages = rawData ? JSON.parse(rawData) : [];\n\n// 3. تحويل كل رسالة إلى عنصر مستقل تفهمه باقي نودات n8n\nreturn messages.map(msg => {\n  return {\n    json: {\n      body: {\n        entry: [\n          {\n            messaging: [msg]\n          }\n        ]\n      },\n      senderId: $('Extract Sender ID').item.json.senderId\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2496,
+        -288
+      ],
+      "id": "50ece687-68c7-4d85-9f66-4167028c005b",
+      "name": "Unpack Messages"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"google/gemini-3.7-flash\", \n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Act as an expert image analyst specializing in 'Old Money' aesthetic apparel. Provide highly detailed descriptions of each clothing item—including fine details, features, colors, branding, materials, and key distinguishing attributes. Ensure your description gives the downstream AI system all necessary context to accurately match the product against its inventory catalog and recommend it to customers.\"\n        },\n        {\n          \"type\": \"image_url\",\n          \"image_url\": {\n            \"url\":\"{{ $json.payload.url }}\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3952,
+        48
+      ],
+      "id": "aff2a438-ac43-4fd1-b82b-9785f9d8b220",
+      "name": "Analyze image",
+      "retryOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": null,
+          "name": "OpenRouter header auth"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "=buffer:{{ $('Extract Sender ID').item.json.senderId }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        -288
+      ],
+      "id": "e60193a7-e9be-4bb4-b69d-0ce663c781ee",
+      "name": "Clear Buffer",
+      "retryOnFail": true,
+      "credentials": {
+        "redis": {
+          "id": null,
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "=lock:{{ $('Extract Sender ID').item.json.senderId }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2288,
+        -288
+      ],
+      "id": "7d663478-3567-4583-91d4-96f76d54a295",
+      "name": "Clear Lock",
+      "retryOnFail": true,
+      "credentials": {
+        "redis": {
+          "id": null,
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.payload.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3792,
+        -240
+      ],
+      "id": "212aafc7-2557-4a26-ae68-e3d4362f399e",
+      "name": "Download Audio"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/audio/transcriptions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "whisper-large-v3"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "language",
+              "value": "ar"
+            },
+            {
+              "name": "prompt",
+              "value": "محادثة بالدارجة الجزائرية، الجزائر، خويا، الطلبية، الشحنة، يسجل، متجر، واش، حبيت"
+            },
+            {
+              "name": "temperature",
+              "value": "0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4064,
+        -240
+      ],
+      "id": "05c0fcf5-87dd-4af6-8645-d83fafdd417f",
+      "name": "Groq-STT",
+      "retryOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": null,
+          "name": "Groq API key"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// دالة أمان: تتفادى الخطأ إيلا node مازال ماخدمش (0 items وصلاتو)\nfunction safeGetAll(nodeName) {\n  try {\n    return $(nodeName).all();\n  } catch (e) {\n    return []; // النود ماخدمش = ماكانش محتوى من هاد النوع فهاد الدفعة\n  }\n}\nconst textItems  = safeGetAll('Text');\nconst audioItems = safeGetAll('Groq-STT');\nconst imageItems = safeGetAll('Analyze image');\nconst videoItems = safeGetAll('Analyze video');\nconst postItems  = safeGetAll('Build Post Summary');\nconst reelItems  = safeGetAll('Build Reel Summary');\nconst senderId = $('Extract Sender ID').item.json.senderId;\n\nfunction safe(val) {\n  if (val === null || val === undefined) return null;\n  const s = String(val).trim();\n  return s.length > 0 ? s : null;\n}\n\nconst texts = textItems\n  .map(item => safe(item.json.Text || item.json.text))\n  .filter(Boolean);\nconst audios = audioItems\n  .map(item => safe(item.json.text || item.json.Text))\n  .filter(Boolean);\nconst images = imageItems\n  .map(item => safe(\n    item.json?.choices?.[0]?.message?.content ||\n    item.json.Text || item.json.text\n  ))\n  .filter(Boolean);\nconst videos = videoItems\n  .map(item => safe(\n    item.json?.choices?.[0]?.message?.content ||\n    item.json.Text || item.json.text\n  ))\n  .filter(Boolean);\nconst posts = postItems\n  .map(item => safe(item.json.Text))\n  .filter(Boolean);\nconst reels = reelItems\n  .map(item => safe(item.json.Text))\n  .filter(Boolean);\n\nconst sections = [];\nif (texts.length > 0) {\n  sections.push(\n    `📝 رسائل نصية (${texts.length}):\\n` +\n    texts.map((t, i) => texts.length > 1 ? `${i + 1}. ${t}` : t).join('\\n')\n  );\n}\nif (audios.length > 0) {\n  sections.push(\n    `🎤 تفريغ رسائل صوتية (${audios.length}):\\n` +\n    audios.map((t, i) => audios.length > 1 ? `${i + 1}. ${t}` : t).join('\\n')\n  );\n}\nif (images.length > 0) {\n  sections.push(\n    `🖼️ وصف صور مرسلة (${images.length}):\\n` +\n    images.map((t, i) => `صورة ${i + 1}:\\n${t}`).join('\\n\\n')\n  );\n}\nif (videos.length > 0) {\n  sections.push(\n    `🎬 وصف فيديوهات مرسلة (${videos.length}):\\n` +\n    videos.map((t, i) => `فيديو ${i + 1}:\\n${t}`).join('\\n\\n')\n  );\n}\nif (posts.length > 0) {\n  sections.push(\n    `🔗 منشورات مشاركة (${posts.length}):\\n` +\n    posts.map((t, i) => posts.length > 1 ? `منشور ${i + 1}:\\n${t}` : t).join('\\n\\n')\n  );\n}\nif (reels.length > 0) {\n  sections.push(\n    `🎥 ريلز مشاركة (${reels.length}):\\n` +\n    reels.map((t, i) => reels.length > 1 ? `ريل ${i + 1}:\\n${t}` : t).join('\\n\\n')\n  );\n}\n\nconst receivedTypes = [];\nif (texts.length)  receivedTypes.push('نص');\nif (audios.length) receivedTypes.push('رسائل صوتية');\nif (images.length) receivedTypes.push('صور');\nif (videos.length) receivedTypes.push('فيديوهات');\nif (posts.length)  receivedTypes.push('منشور مُشارك');\nif (reels.length)  receivedTypes.push('ريل مُشارك');\n\nconst header = receivedTypes.length > 0\n  ? `📥 المحتوى المستلم من المستخدم في هذه الدفعة: ${receivedTypes.join('، ')}\\n`\n  : '';\n\nconst body = sections.length > 0\n  ? sections.join('\\n\\n---\\n\\n')\n  : '(لم يصل أي محتوى قابل للفهم من المستخدم في هذه الدفعة)';\n\nconst finalContext = header ? `${header}\\n${body}` : body;\n\nreturn [{\n  json: {\n    finalContext,\n    senderId,\n    meta: {\n      hasText: texts.length > 0,\n      hasAudio: audios.length > 0,\n      hasImage: images.length > 0,\n      hasVideo: videos.length > 0,\n      hasPost: posts.length > 0,\n      hasReel: reels.length > 0,\n      totalContentPieces: texts.length + audios.length + images.length + videos.length + posts.length + reels.length\n    }\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5840,
+        400
+      ],
+      "id": "4e9ca7d3-25c2-4521-bc1d-ce3da72e215e",
+      "name": "finalContext"
+    },
+    {
+      "parameters": {
+        "numberInputs": 6
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        5568,
+        336
+      ],
+      "id": "67161983-9258-400f-866d-34578b323ff6",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "EVENT_RECEIVED",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -400,
+        -32
+      ],
+      "id": "7dbdb25b-e75d-4512-ab85-45d6b612b301",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "62632b5f-fb4e-44b9-a621-ec993c16603a",
+              "leftValue": "={{ $json.body.entry[0].messaging[0].message.text }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2736,
+        -288
+      ],
+      "id": "76e2ffb4-03ad-445b-879d-229b29f92f9c",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "030edec4-0ca1-4c59-b38f-98c8eed5e1be",
+              "leftValue": "={{ $json.body.entry[0].messaging[0].message.is_echo }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -592,
+        1072
+      ],
+      "id": "1aa033fa-1ec3-4d87-8ba0-9bd5b32169a3",
+      "name": "is_echo"
+    },
+    {
+      "parameters": {
+        "content": "# 1️⃣ 🔵 INGESTION — Receive & Validate Meta Webhooks\n",
+        "height": 608,
+        "width": 1024,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1120,
+        -432
+      ],
+      "typeVersion": 1,
+      "id": "ad195484-8c89-4832-bc9e-5746c334a7f1",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nconst rawUrl = item.payload?.url || \"\";\n\n// 1. استخراج story_fbid عبر Regex\nconst storyMatch = rawUrl.match(/story_fbid=([^&]+)/);\nconst storyFbid = storyMatch ? storyMatch[1] : \"\";\n\n// 2. استخراج id الخاص بالصفحة عبر Regex\nconst pageMatch = rawUrl.match(/[?&]id=([^&]+)/);\nconst pageId = pageMatch ? pageMatch[1] : \"\";\n\n// 3. تركيب المعرّف المركّب المطلوبة لـ Graph API: {PageID}_{PostID}\nlet finalId = \"\";\nif (pageId && storyFbid) {\n  finalId = `${pageId}_${storyFbid}`;\n} else if (storyFbid) {\n  finalId = storyFbid;\n} else {\n  finalId = item.payload?.id;\n}\n\nreturn [{\n  json: {\n    ...item,\n    graphPostId: finalId\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3440,
+        864
+      ],
+      "id": "7c55163e-7ac9-46ee-bf0f-b9bf24b882fc",
+      "name": "Extract Post ID"
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v26.0/{{ $json.graphPostId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "fields",
+              "value": "message,attachments{media_type,media,url,target}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3760,
+        864
+      ],
+      "id": "09393f7c-69f1-4e42-b835-263ae0b6b1e2",
+      "name": "Get Post Details",
+      "retryOnFail": true,
+      "credentials": {
+        "httpQueryAuth": {
+          "id": null,
+          "name": "Facebook Graph API token"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.attachments.data[0].media_type }}",
+                    "rightValue": "photo",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "75c43b48-a3d0-4d9a-9334-79cc9ead2016"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Photo"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3984,
+        864
+      ],
+      "id": "d7ad15b4-41ac-42a1-aa76-25c2ecac2b3d",
+      "name": "Post Type Switch"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. جلب الكابشن والرابط من الـ Webhook و HTTP Request\nconst webhookData = $('Split Out').first()?.json?.payload || {};\nconst postDetails = $('Get Post Details').first()?.json || {};\n\nconst postTitle = webhookData.title || postDetails.message || \"بدون نص\";\nconst postUrl = webhookData.url || \"\";\n\n// 2. جلب نتيجة تحليل الصورة إن وجدت (فقط الصورة، الفيديو ماعادش من مسؤولية هاد الـ branch)\nlet mediaAnalysis = \"\";\n\ntry {\n  const imgAnalysis = $('Analyze Post Image').first()?.json?.choices?.[0]?.message?.content;\n  if (imgAnalysis) mediaAnalysis += `\\n🖼️ [وصف صورة المنشور]: ${imgAnalysis}`;\n} catch (e) {}\n\n// 3. صياغة النص النهائي الموحد\nconst fullPostSummary = `🔗 منشور مشارك من العميل:\\n- النص/الكابشن: ${postTitle}${mediaAnalysis}\\n- رابط المنشور: ${postUrl}`;\n\nreturn [{\n  json: {\n    Text: fullPostSummary\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4832,
+        880
+      ],
+      "id": "53e2dba2-f693-4fc1-a98d-8a40b3c08967",
+      "name": "Build Post Summary"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"google/gemini-3.7-flash\", \n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Act as an expert image analyst specializing in 'Old Money' aesthetic apparel. Provide highly detailed descriptions of each clothing item—including fine details, features, colors, branding, materials, and key distinguishing attributes. Ensure your description gives the downstream AI system all necessary context to accurately match the product against its inventory catalog and recommend it to customers.\"\n        },\n        {\n          \"type\": \"image_url\",\n          \"image_url\": {\n            \"url\":\"{{ $json.attachments.data[0].media.image.sr }}\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4368,
+        736
+      ],
+      "id": "519f1023-275a-4d1b-bc40-0117d3d6cfd9",
+      "name": "Analyze Post Image",
+      "retryOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": null,
+          "name": "OpenRouter header auth"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "multipleMethods": true,
+        "path": "ai-sales-agent",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1056,
+        -288
+      ],
+      "id": "0b30f5bd-ab08-41b6-bd17-e210605a4e0a",
+      "name": "Webhook",
+      "webhookId": "c3c0c918-050d-4de3-bbbc-76cdb734a018"
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v26.0/{{ $json.payload.reel_video_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "fields",
+              "value": "description,source,permalink_url,picture"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3424,
+        1232
+      ],
+      "id": "c96f34b2-fb0f-4e79-874c-7e62ee12c13f",
+      "name": "Get Reel Details",
+      "retryOnFail": true,
+      "credentials": {
+        "httpQueryAuth": {
+          "id": null,
+          "name": "Facebook Graph API token"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"google/gemini-3.7-flash\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": [\n        { \"type\": \"text\", \"text\": \"Act as an expert video analyst specializing in 'Old Money' aesthetic apparel. Provide highly detailed descriptions of the clothing items shown in the video—including fit, fabric texture, dynamic movement, fine details, features, colors, branding, and key distinguishing attributes. Ensure your description gives the downstream AI system all necessary context to accurately match the product against its inventory catalog and recommend it to customers.\" },\n        {\n          \"type\": \"video_url\",\n          \"video_url\": { \"url\": \"{{ $json.source }}\" }\n        }\n      ]\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4304,
+        1232
+      ],
+      "id": "f18f105c-5871-4c5f-bf77-9becd6fb404c",
+      "name": "Analyze Reel Video",
+      "retryOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": null,
+          "name": "OpenRouter header auth"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const webhookData = $('Split Out').first()?.json?.payload || {};\nconst reelDetails = $('Get Reel Details').first()?.json || {};\n\nconst reelTitle = webhookData.title || reelDetails.description || \"بدون نص\";\nconst reelUrl = webhookData.url || \"\";\n\nlet mediaAnalysis = \"\";\ntry {\n  const vidAnalysis = $('Analyze Reel Video').first()?.json?.choices?.[0]?.message?.content;\n  if (vidAnalysis) mediaAnalysis += `\\n🎬 [وصف فيديو الريل]: ${vidAnalysis}`;\n} catch (e) {}\n\nconst fullReelSummary = `🔗 ريل مشارك من العميل:\\n- النص/الوصف: ${reelTitle}${mediaAnalysis}\\n- رابط الريل: ${reelUrl}`;\n\nreturn [{\n  json: {\n    Text: fullReelSummary\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4816,
+        1232
+      ],
+      "id": "a55a5a0e-7fa3-4136-99e7-a714a250783d",
+      "name": "Build Reel Summary"
+    },
+    {
+      "parameters": {
+        "content": "# Post Branch",
+        "height": 400,
+        "width": 1584,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3392,
+        688
+      ],
+      "typeVersion": 1,
+      "id": "d227ad0c-ef2f-484b-a9c1-c15688f329a9",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "# Reel Branch",
+        "height": 368,
+        "width": 1584,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3392,
+        1120
+      ],
+      "typeVersion": 1,
+      "id": "141d16e1-3071-4bb8-9f5e-dee3a9422109",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "# Video Branch",
+        "height": 272,
+        "width": 624,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3696,
+        336
+      ],
+      "typeVersion": 1,
+      "id": "e5eb3b42-b205-4273-9763-faf479f55e0d",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "# Image Branch",
+        "height": 272,
+        "width": 624,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3696,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "387065cb-2b5a-4edd-8764-127866b36b94",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "# Voice Branch",
+        "height": 240,
+        "width": 624,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3696,
+        -320
+      ],
+      "typeVersion": 1,
+      "id": "5e02eaeb-0019-4836-8a53-fc415505b5de",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "# Text Branch",
+        "height": 240,
+        "width": 624,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3696,
+        -608
+      ],
+      "typeVersion": 1,
+      "id": "6722dc6e-c379-4a42-b73b-d9cd9f63dbee",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "YOUR_WORKFLOW_ID",
+          "mode": "id",
+          "cachedResultName": "Ai Sales Agent For Social Commerce Part 2"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        6096,
+        400
+      ],
+      "id": "e3f10e86-3417-4c3c-97cf-eedc36c430be",
+      "name": "Call 'Ai Sales Agent For Social Commerce Part 2'"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Bot_Control",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "user_id",
+              "lookupValue": "={{ $json.senderId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        304,
+        -48
+      ],
+      "id": "289c0798-3120-4418-b4ca-c39eaa4e622b",
+      "name": "Lookup Bot Status",
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": null,
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d2f7f12c-038c-47b5-a488-eaa771f6a2c0",
+              "leftValue": "={{ $json.bot_paused }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        480,
+        -304
+      ],
+      "id": "070633b4-66e9-4f6b-b69e-d8fd96191293",
+      "name": "Is Bot Paused?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "59c8c8b2-1781-46b4-9c1c-fb87e69940a8",
+              "leftValue": "={{ $json.body.entry[0].messaging[0].message.app_id }}",
+              "rightValue": 263902037430900,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -400,
+        1088
+      ],
+      "id": "78957829-9856-484e-856d-dfec7c905165",
+      "name": "Is Merchant Manual Reply?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "094f01de-8ba4-435f-8442-bcbff75b2785",
+              "name": "senderId",
+              "value": "={{ $json.body.entry[0].messaging[0].recipient.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -128,
+        1072
+      ],
+      "id": "e4983391-f1f3-4afa-8feb-0b4b09b99c3a",
+      "name": "Extract Customer ID from Echo"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "={{ $json.EchoMessage }}"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        2272,
+        1328
+      ],
+      "id": "12b2aa53-fac7-44cd-be9b-956675c21481",
+      "name": "Chat Memory Manager"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.senderId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.4,
+      "position": [
+        2272,
+        1552
+      ],
+      "id": "ccd6508a-e251-41df-bb59-abaa5747ec09",
+      "name": "Postgres Chat Memory",
+      "retryOnFail": true,
+      "credentials": {
+        "postgres": {
+          "id": null,
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "45fa2b8f-6e44-46f5-ba85-f00982f3440f",
+              "leftValue": "={{ $('Webhook').item.json.body.entry[0].messaging[0].message.text }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        80,
+        816
+      ],
+      "id": "6efa4e3e-6632-4248-adec-3fc256633a67",
+      "name": "Echo: Has Text?"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "body.entry[0].messaging[0].message.attachments",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        272,
+        1232
+      ],
+      "id": "0723c638-0058-4f88-a0b9-b0f887d6d664",
+      "name": "Echo Split Out"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "228fc87d-a4d9-4e68-8712-39050179b880",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "audio",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "80a1a634-2380-428e-8916-660306923c87"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Image"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "28df5ba7-b3a5-42be-bc37-daba5b039383",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "video",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Video"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        512,
+        1216
+      ],
+      "id": "c14b311d-2fc5-4117-92d9-0a367d66d1cb",
+      "name": "Echo Type Switch"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"google/gemini-2.5-flash\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Act as an expert image analyst specializing in 'Old Money' aesthetic apparel. Provide highly detailed descriptions of each clothing item—including fine details, features, colors, branding, materials, and key distinguishing attributes. Ensure your description gives the downstream AI system all necessary context to accurately match the product against its inventory catalog and recommend it to customers.\"\n        },\n        {\n          \"type\": \"image_url\",\n          \"image_url\": {\n            \"url\": \"{{ $json.payload.url }}\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        832,
+        1344
+      ],
+      "id": "a26dd1e8-57d0-420a-a866-5601ee26847b",
+      "name": "Echo Analyze Image",
+      "retryOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": null,
+          "name": "OpenRouter header auth"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"google/gemini-2.5-flash\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": [\n        { \"type\": \"text\", \"text\": \"Act as an expert video analyst specializing in 'Old Money' aesthetic apparel. Provide highly detailed descriptions of the clothing items shown in the video—including fit, fabric texture, dynamic movement, fine details, features, colors, branding, and key distinguishing attributes. Ensure your description gives the downstream AI system all necessary context to accurately match the product against its inventory catalog and recommend it to customers.\" },\n        {\n          \"type\": \"video_url\",\n          \"video_url\": { \"url\": \"{{ $json.payload.url }}\" }\n        }\n      ]\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        832,
+        1552
+      ],
+      "id": "7e3eac4b-f59e-4703-833a-c0379c95fe39",
+      "name": "Echo Analyze Video",
+      "retryOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": null,
+          "name": "OpenRouter header auth"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.payload.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        832,
+        1104
+      ],
+      "id": "52d3ae76-cea6-4835-a581-cc6644e59369",
+      "name": "Echo Download Audio",
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/audio/transcriptions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "whisper-large-v3"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "language",
+              "value": "ar"
+            },
+            {
+              "name": "prompt",
+              "value": "محادثة بالدارجة الجزائرية، الجزائر، خويا، الطلبية، الشحنة، يسجل، متجر، واش، حبيت"
+            },
+            {
+              "name": "temperature",
+              "value": "0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1088,
+        1104
+      ],
+      "id": "aee55989-2f5d-4185-ae11-315e047bebc3",
+      "name": "Echo Groq-STT",
+      "retryOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": null,
+          "name": "Groq API key"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1744,
+        1296
+      ],
+      "id": "756333b4-f261-4ba9-a8b5-0993d4154abf",
+      "name": "Echo Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "// خطوة 1: دالة أمان — تتفادى error إيلا node ماخدمش هاد الدورة\nfunction safeGetAll(nodeName) {\n  try {\n    return $(nodeName).all();\n  } catch (e) {\n    return []; // النود ماخدمش = ماكانش محتوى من هاد النوع\n  }\n}\n\n// خطوة 2: دالة تنضيف — كتشيل قيم فارغة/null\nfunction safe(val) {\n  if (val === null || val === undefined) return null;\n  const s = String(val).trim();\n  return s.length > 0 ? s : null;\n}\n\n// خطوة 3: نجمعو الـ items من كل فرع محتمل\nconst textItems  = safeGetAll('Echo Text');\nconst audioItems = safeGetAll('Echo Groq-STT');\nconst imageItems = safeGetAll('Echo Analyze Image');\nconst videoItems = safeGetAll('Echo Analyze Video');\n\n// خطوة 4: نجيبو senderId من العقدة اللي استخرجاتو (ماشي من $json الحالي)\nconst senderId = $('Extract Customer ID from Echo').item.json.senderId;\n\n// خطوة 5: نسحبو النص من الحقل الصحيح حسب نوع كل فرع\nconst texts = textItems\n  .map(item => safe(item.json.Text))\n  .filter(Boolean);\n\nconst audios = audioItems\n  .map(item => safe(item.json.text))\n  .filter(Boolean);\n\nconst images = imageItems\n  .map(item => safe(item.json?.choices?.[0]?.message?.content))\n  .filter(Boolean);\n\nconst videos = videoItems\n  .map(item => safe(item.json?.choices?.[0]?.message?.content))\n  .filter(Boolean);\n\n// خطوة 6: نبنيو الأقسام - غير الفرع اللي فيه بيانات حقيقية\nconst sections = [];\nif (texts.length)  sections.push(`💬 نص:\\n${texts.join('\\n')}`);\nif (audios.length) sections.push(`🎤 تفريغ ملاحظة صوتية:\\n${audios.join('\\n')}`);\nif (images.length) sections.push(`🖼️ وصف صورة مرسلة:\\n${images.join('\\n\\n')}`);\nif (videos.length) sections.push(`🎬 وصف فيديو مرسل:\\n${videos.join('\\n\\n')}`);\n\n// خطوة 7: fallback إيلا نوع مرفق غير مدعوم (sticker, file...)\nconst body = sections.length > 0\n  ? sections.join('\\n\\n')\n  : '(نوع محتوى غير مدعوم حاليًا - لم يتم استخراج نص منه)';\n\n// خطوة 8: الرسالة النهائية\nconst EchoMessage = `📩 رد صاحب المتجر يدويًا عبر Messenger:\\n${body}`;\n\nreturn [{\n  json: {\n    EchoMessage,\n    senderId\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1984,
+        1328
+      ],
+      "id": "c88e6fd4-433e-4b37-86c5-8bb0a37b98be",
+      "name": "Build Echo Summary"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a7a06033-4151-4134-b67a-821caaed5748",
+              "name": "Text",
+              "value": "={{ $('Webhook').item.json.body.entry[0].messaging[0].message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1088,
+        800
+      ],
+      "id": "f8990bf6-a39e-4dcc-bcea-ad260d48084d",
+      "name": "Echo Text"
+    },
+    {
+      "parameters": {
+        "content": "# 2️⃣ 🟣 CHECKING --- Check Bot Status",
+        "height": 576,
+        "width": 688,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        -400
+      ],
+      "typeVersion": 1,
+      "id": "e359ad7a-d02e-42a4-bc87-310ce1de228c",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "# 5️⃣ 🟢 AGGREGATION --- Collect Input Data",
+        "height": 432,
+        "width": 800,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        5488,
+        208
+      ],
+      "typeVersion": 1,
+      "id": "80433769-5c3d-478a-b35b-f77adc85cc2b",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# 🟢 STORAGE --- Save Messages Of Owner When Bot OFF",
+        "height": 1104,
+        "width": 3296,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -656,
+        720
+      ],
+      "typeVersion": 1,
+      "id": "39b2f521-0f43-4b53-940b-e4fe407bfb42",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# 3️⃣ 🟡 BUFFER ---  Debounce Incoming Messages via Redis",
+        "height": 560,
+        "width": 1936,
+        "color": "#9D9F28"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        704,
+        -384
+      ],
+      "typeVersion": 1,
+      "id": "492aa1e5-29fa-46f4-9656-0043877359fc",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "# 4️⃣ 🟣 ANALYSIS --- Analyse Input Data Of Customer",
+        "height": 2256,
+        "width": 2672,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2704,
+        -688
+      ],
+      "typeVersion": 1,
+      "id": "c1d96f3e-359b-436b-b08d-f2631903bdce",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "errorMessage": "hy error"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        160,
+        -256
+      ],
+      "id": "ee0e1056-b638-4d98-866a-e70c854746ff",
+      "name": "Stop and Error"
+    }
+  ],
+  "connections": {
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Download Audio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Analyze image",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Analyze video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract Post ID",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Reel Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze video": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Extract Sender ID": {
+      "main": [
+        [
+          {
+            "node": "Lookup Bot Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Get Buffer": {
+      "main": [
+        [
+          {
+            "node": "Prepare Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Buffer": {
+      "main": [
+        [
+          {
+            "node": "Redis Set Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Set Buffer": {
+      "main": [
+        [
+          {
+            "node": "Acquire Lock",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Acquire Lock": {
+      "main": [
+        [
+          {
+            "node": "Is Leader?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Leader?": {
+      "main": [
+        [
+          {
+            "node": "Wait For Batch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait For Batch": {
+      "main": [
+        [
+          {
+            "node": "Get Final Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Final Buffer": {
+      "main": [
+        [
+          {
+            "node": "Clear Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unpack Messages": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze image": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Clear Buffer": {
+      "main": [
+        [
+          {
+            "node": "Clear Lock",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clear Lock": {
+      "main": [
+        [
+          {
+            "node": "Unpack Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Audio": {
+      "main": [
+        [
+          {
+            "node": "Groq-STT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq-STT": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "finalContext",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Extract Sender ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Text",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "is_echo": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Is Merchant Manual Reply?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Post ID": {
+      "main": [
+        [
+          {
+            "node": "Get Post Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Post Details": {
+      "main": [
+        [
+          {
+            "node": "Post Type Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post Type Switch": {
+      "main": [
+        [
+          {
+            "node": "Analyze Post Image",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Post Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Post Image": {
+      "main": [
+        [
+          {
+            "node": "Build Post Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Post Summary": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "is_echo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Reel Details": {
+      "main": [
+        [
+          {
+            "node": "Analyze Reel Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Reel Video": {
+      "main": [
+        [
+          {
+            "node": "Build Reel Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Reel Summary": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 5
+          }
+        ]
+      ]
+    },
+    "finalContext": {
+      "main": [
+        [
+          {
+            "node": "Call 'Ai Sales Agent For Social Commerce Part 2'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lookup Bot Status": {
+      "main": [
+        [
+          {
+            "node": "Is Bot Paused?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Bot Paused?": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Redis Get Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Merchant Manual Reply?": {
+      "main": [
+        [
+          {
+            "node": "Extract Customer ID from Echo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Customer ID from Echo": {
+      "main": [
+        [
+          {
+            "node": "Echo: Has Text?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Chat Memory Manager",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Echo: Has Text?": {
+      "main": [
+        [
+          {
+            "node": "Echo Text",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Echo Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Echo Split Out": {
+      "main": [
+        [
+          {
+            "node": "Echo Type Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Echo Type Switch": {
+      "main": [
+        [
+          {
+            "node": "Echo Download Audio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Echo Analyze Image",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Echo Analyze Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Echo Download Audio": {
+      "main": [
+        [
+          {
+            "node": "Echo Groq-STT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Echo Groq-STT": {
+      "main": [
+        [
+          {
+            "node": "Echo Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Echo Analyze Image": {
+      "main": [
+        [
+          {
+            "node": "Echo Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Echo Analyze Video": {
+      "main": [
+        [
+          {
+            "node": "Echo Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Echo Merge": {
+      "main": [
+        [
+          {
+            "node": "Build Echo Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Echo Summary": {
+      "main": [
+        [
+          {
+            "node": "Chat Memory Manager",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Echo Text": {
+      "main": [
+        [
+          {
+            "node": "Echo Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true,
+    "timeSavedMode": "fixed",
+    "timezone": "Africa/Algiers",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "nodeGroups": []
+}

@@ -1,0 +1,269 @@
+{
+  "name": "Error Handler -- Ai Sales Agent For social Commerce",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        112,
+        -96
+      ],
+      "id": "3ef5c391-3aa1-422c-a4d3-5e6203e8da7b",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $json;\n\nconst execution = input.execution || {};\nconst error = execution.error || {};\nconst node = error.node || {};\nconst workflow = input.workflow || {};\n\n// تحويل الوقت من milliseconds إلى صيغة تاريخ وقاقعية\nconst timestamp = error.timestamp ? new Date(error.timestamp).toLocaleString('fr-FR', { timeZone: 'Africa/Algiers' }) : new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Algiers' });\n\nreturn [{\n  json: {\n    workflowName: workflow.name || 'غير محدد',\n    workflowId: workflow.id || '',\n    executionId: execution.id || '',\n    executionUrl: execution.url || '',\n    failedNodeName: node.name || execution.lastNodeExecuted || 'غير محدد',\n    failedNodeType: node.type || 'غير محدد',\n    errorMessage: error.message || 'لا توجد رسالة خطأ',\n    stackTrace: error.stack || 'لا يوجد Stack Trace',\n    executionMode: execution.mode || 'unknown',\n    occurredAt: timestamp\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        320,
+        -96
+      ],
+      "id": "070158bb-1ee2-4705-9263-5a1c2a51033b",
+      "name": "Parse Error Payload"
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_TELEGRAM_CHAT_ID",
+        "text": "=🚨 <b>تنبيه خطأ أوتوماتيكي — NODAL AI</b>\n\n📌 <b>الوركفلو:</b> {{ $('Parse Error Payload').item.json.workflowName }}\n⚠️ <b>النود المعطلة:</b> {{ $('Parse Error Payload').item.json.failedNodeName }}\n🕒 <b>الوقت:</b> {{ $('Parse Error Payload').item.json.occurredAt }}\n\n❌ <b>رسالة الخطأ:</b>\n<code>{{ $('Parse Error Payload').item.json.errorMessage }}</code>\n\n💡 <b>تحليل الذكاء الاصطناعي واقتراح الحل:</b>\n{{ $('AI Error Diagnosis').item.json.text }}\n\n🔗 <b>رابط التنفيذ المباشر:</b>\n{{ $('Parse Error Payload').item.json.executionUrl }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1088,
+        -96
+      ],
+      "id": "ab24e0e6-6010-4b20-bea6-0a376b144fbc",
+      "name": "Send Telegram Alert",
+      "webhookId": "2491ffe4-86e2-4da4-9a33-c58f66a71996",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": null,
+          "name": "Telegram alerts bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=أنت مهندس صيانة أنظمة أتمتة متخصص في n8n. وقع خطأ في أحد الوركفلوهات وعليك تحليله واقتراح حل سريع.\n\nبيانات الخطأ:\n- اسم الـ Workflow: {{ $json.workflowName }}\n- الـ Node المعطلة: {{ $json.failedNodeName }} (النوع: {{ $json.failedNodeType }})\n- رسالة الخطأ: {{ $json.errorMessage }}\n- التتبع التقني (Stack Trace):\n{{ $json.stackTrace }}\n\nالمطلوب:\n1. سبب المشكلة الرئيسي في سطر واحد.\n2. خطوات واضحة ومباشرة لحلها (في نقطتين أو ثلاث كحد أقصى).\nملاحظة: أجب باللغة العربية بأسلوب مباشر ومختصر جداً بدون مقدمات أو شكليات.",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        528,
+        -96
+      ],
+      "id": "d379f9ed-8811-46b7-bf3e-47e6811d11be",
+      "name": "AI Error Diagnosis"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "error_logs",
+          "mode": "list",
+          "cachedResultName": "error_logs"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "workflow_name": "={{ $('Parse Error Payload').item.json.workflowName }}",
+            "failed_node": "={{ $('Parse Error Payload').item.json.failedNodeName }}",
+            "error_message": "={{ $('Parse Error Payload').item.json.errorMessage }}",
+            "execution_url": "={{ $('Parse Error Payload').item.json.executionUrl }}",
+            "created_at": "={{ DateTime.fromFormat($('Parse Error Payload').item.json.occurredAt, 'dd/MM/yyyy HH:mm:ss').toISO() }}",
+            "ai_solution": "={{ $json.text }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "workflow_name",
+              "displayName": "workflow_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "failed_node",
+              "displayName": "failed_node",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "error_message",
+              "displayName": "error_message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ai_solution",
+              "displayName": "ai_solution",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "execution_url",
+              "displayName": "execution_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        880,
+        -96
+      ],
+      "id": "6e87d181-fd0b-4279-bd7d-43cb9379a431",
+      "name": "Log Error to Database",
+      "credentials": {
+        "postgres": {
+          "id": null,
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "google/gemini-3.7-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        528,
+        64
+      ],
+      "id": "ae826ba1-4b02-4123-b43d-412d5f7d0121",
+      "name": "Brain",
+      "credentials": {
+        "openRouterApi": {
+          "id": null,
+          "name": "OpenRouter account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Parse Error Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Error Payload": {
+      "main": [
+        [
+          {
+            "node": "AI Error Diagnosis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Error Diagnosis": {
+      "main": [
+        [
+          {
+            "node": "Log Error to Database",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Error to Database": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brain": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Error Diagnosis",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true,
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "timezone": "Africa/Algiers"
+  },
+  "nodeGroups": []
+}

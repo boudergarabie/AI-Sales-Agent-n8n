@@ -1,0 +1,667 @@
+{
+  "name": "Escalate To Human - Tool",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        64,
+        -448
+      ],
+      "id": "87cf5365-5d34-4e1a-94d7-770350a66365",
+      "name": "Get Conversation History"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.user_id }}",
+        "contextWindowLength": 1
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.4,
+      "position": [
+        48,
+        -288
+      ],
+      "id": "087a3d96-fcb9-4496-9fff-cef295a48d54",
+      "name": "Escalation",
+      "credentials": {
+        "postgres": {
+          "id": null,
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=لخص المحادثة التالية باستخدام اللهجة جزائرية اياك وتنسى ملخص ان يكون بلهجة جزائرية بين وكيل الدعم والعميل في 3 إلى 4 أسطر بالعربية. ركّز على: طلب/مشكلة العميل، وآخر نقطة وصلت ليها المحادثة قبل التصعيد.\n\n{{ JSON.stringify($json.data) }}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        1520,
+        -720
+      ],
+      "id": "4f3b4c22-a034-49ac-8d2f-f1369a7a515c",
+      "name": "Summarize Conversation",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1312,
+        -464
+      ],
+      "id": "90609f7c-3202-491c-b8a5-cd30152c9e8a",
+      "name": "Rebuild Messages Array"
+    },
+    {
+      "parameters": {
+        "maxItems": 5,
+        "keep": "lastItems"
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1088,
+        -464
+      ],
+      "id": "3f5acb8d-e11b-41a4-9692-3fa9820363d0",
+      "name": "Keep Last 5 Messages"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "messages",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        416,
+        -448
+      ],
+      "id": "d9ce4813-b0c5-4f0d-9487-f14b8c5c587c",
+      "name": "Split Messages Into Items",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        -544
+      ],
+      "id": "bab0abf2-7abe-4944-9794-3a50ad33a529",
+      "name": "Summary Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": null,
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "senderId"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -528,
+        -304
+      ],
+      "id": "e3828170-b5e1-470a-99e7-56866dd53204",
+      "name": "Escalation Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Bot_Control",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "user_id": "={{ $json.senderId }}",
+            "bot_paused": "true",
+            "paused_at": "={{ $now.format('yyyy-MM-dd HH:mm') }}"
+          },
+          "matchingColumns": [
+            "user_id"
+          ],
+          "schema": [
+            {
+              "id": "user_id",
+              "displayName": "user_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bot_paused",
+              "displayName": "bot_paused",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "paused_at",
+              "displayName": "paused_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -288,
+        -304
+      ],
+      "id": "0fe7c76a-00b7-4c0c-b014-d2a349d71e87",
+      "name": "Update Bot_Control Sheet",
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": null,
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_TELEGRAM_CHAT_ID",
+        "text": "=🔔 تصعيد جديد\nالعميل: {{ $('Escalation Trigger').item.json.senderId }}\n\n📝 ملخص المحادثة:\n{{ $json.text }}\n",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "✅ تفعيل البوت",
+                    "additionalFields": {
+                      "callback_data": "=bot_on:{{ $('Escalation Trigger').item.json.senderId }}"
+                    }
+                  },
+                  {
+                    "text": "⛔ إيقاف البوت",
+                    "additionalFields": {
+                      "callback_data": "=bot_off:{{ $('Escalation Trigger').item.json.senderId }}"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1904,
+        -720
+      ],
+      "id": "66de05eb-1ee3-43ec-9c20-a575d8b14495",
+      "name": "Notify Store Owner",
+      "webhookId": "ed0eab43-0ac2-401d-9fa5-d968a7a6fc62",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": null,
+          "name": "Telegram bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "190c9252-8b85-443f-ae4f-372789c5bb9e",
+              "name": "output",
+              "value": "تم تصعيد المحادثة بنجاح إلى فريق الدعم البشري. أخبر العميل أن أحد ممثلي خدمة العملاء سيتواصل معه قريباً.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2112,
+        -720
+      ],
+      "id": "88d6ffb4-722e-4f52-91b2-62e08aac727b",
+      "name": "Return Confirmation to Agent"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -192,
+        1136
+      ],
+      "id": "8982a12e-fbaf-4997-88bf-0a5417f866eb",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "n8n_chat_histories",
+          "mode": "list",
+          "cachedResultName": "n8n_chat_histories"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "session_id",
+              "value": "TEST_SESSION_ID"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        224,
+        352
+      ],
+      "id": "a10ce6d4-0b45-4589-a245-ee18f366dcac",
+      "name": "Select rows from a table",
+      "credentials": {
+        "postgres": {
+          "id": null,
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        16,
+        1136
+      ],
+      "id": "9f45f1b2-c882-48f6-beeb-47e8991f887a",
+      "name": "Chat Memory Manager"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "TEST_SESSION_ID"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.4,
+      "position": [
+        16,
+        1312
+      ],
+      "id": "1b16e147-4f77-4576-b5c7-78d5ebeed55e",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": null,
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c2889d5b-a8f8-42be-b337-52b8fa0130ae",
+              "leftValue": "={{ $json.hasItems }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        848,
+        -256
+      ],
+      "id": "4bca2c1e-b42b-4bb8-9fb1-62e1afcbfce9",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_TELEGRAM_CHAT_ID",
+        "text": "=🔔 تصعيد جديد\nالعميل: {{ $('Escalation Trigger').item.json.senderId }}\n\n📝 ملخص المحادثة:\nياخو هدا كليون جديد جامي تعامل مع باجة تاعنا ولا شرى من عندنا او راهو حاب يهدر معاك ادا راك فارغ رد عليه راهو مغصوب\n",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "✅ تفعيل البوت",
+                    "additionalFields": {
+                      "callback_data": "=bot_on:{{ $('Escalation Trigger').item.json.senderId }}"
+                    }
+                  },
+                  {
+                    "text": "⛔ إيقاف البوت",
+                    "additionalFields": {
+                      "callback_data": "=bot_off:{{ $('Escalation Trigger').item.json.senderId }}"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1904,
+        -240
+      ],
+      "id": "56933fd3-8bbb-4415-86b7-fe6690480bd6",
+      "name": "Notify Store Owner1",
+      "webhookId": "e7df402c-9dc6-43d1-b0cb-8bec6fb5e782",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": null,
+          "name": "Telegram bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "190c9252-8b85-443f-ae4f-372789c5bb9e",
+              "name": "output",
+              "value": "تم تصعيد المحادثة بنجاح إلى فريق الدعم البشري. أخبر العميل أن أحد ممثلي خدمة العملاء سيتواصل معه قريباً.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2128,
+        -240
+      ],
+      "id": "cbb270c4-3237-43f3-8f40-06436340b555",
+      "name": "Return Confirmation to Agent1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// جلب جميع العناصر\nconst items = $('Split Messages Into Items').all();\n\n// تصفية العناصر واستبعاد الكائنات الفارغة {}\nconst validItems = items.filter(item => Object.keys(item.json).length > 0);\nconst count = validItems.length;\n\n// إرجاع النتيجة\nreturn [\n  {\n    json: {\n      hasItems: count > 0,\n      count: count\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        -256
+      ],
+      "id": "91ef6b6d-e460-4cb1-a9f6-edc052d3064e",
+      "name": "Has Messages?"
+    }
+  ],
+  "connections": {
+    "Get Conversation History": {
+      "main": [
+        [
+          {
+            "node": "Split Messages Into Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escalation": {
+      "ai_memory": [
+        [
+          {
+            "node": "Get Conversation History",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize Conversation": {
+      "main": [
+        [
+          {
+            "node": "Notify Store Owner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rebuild Messages Array": {
+      "main": [
+        [
+          {
+            "node": "Summarize Conversation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keep Last 5 Messages": {
+      "main": [
+        [
+          {
+            "node": "Rebuild Messages Array",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Messages Into Items": {
+      "main": [
+        [
+          {
+            "node": "Has Messages?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summary Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarize Conversation",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escalation Trigger": {
+      "main": [
+        [
+          {
+            "node": "Update Bot_Control Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Bot_Control Sheet": {
+      "main": [
+        [
+          {
+            "node": "Get Conversation History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Store Owner": {
+      "main": [
+        [
+          {
+            "node": "Return Confirmation to Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Chat Memory Manager",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Chat Memory Manager",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Keep Last 5 Messages",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notify Store Owner1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Store Owner1": {
+      "main": [
+        [
+          {
+            "node": "Return Confirmation to Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Messages?": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true,
+    "timeSavedMode": "fixed",
+    "timezone": "Africa/Algiers",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "nodeGroups": []
+}
